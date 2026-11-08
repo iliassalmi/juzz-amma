@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Juz Amma">
+<meta name="theme-color" content="#0E3B2E">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<title>Juz ʿAmma</title>
+<style>
+:root{--bg:#F5EFE3;--card:#FFFCF5;--ink:#1D2822;--mut:#76807A;--line:#E7DFCF;--green:#0E3B2E;--g2:#1F6B4F;--gold:#B8862F;--goldL:#E9D3A3;--new:#CFC8BA;--lrn:#E0A13A;--mem:#2F8A5B;--sh:0 1px 2px rgba(30,40,34,.05),0 8px 24px rgba(30,40,34,.07);--tab:60px;--soft:#EFE7D6}
+@media (prefers-color-scheme:dark){:root{--bg:#0A1410;--card:#12211B;--ink:#ECE5D5;--mut:#95A29B;--line:#20342B;--g2:#5BC293;--gold:#D9B160;--goldL:#4A3D22;--new:#3B4B44;--sh:none;--soft:#182B23}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+body{padding-top:env(safe-area-inset-top);overscroll-behavior-y:none}
+button,select,textarea,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+#app{max-width:680px;margin:0 auto;padding:0 16px calc(var(--tab) + 170px + env(safe-area-inset-bottom))}
+h1,h2,h3,.serif{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.01em;margin:0}
+.ar{font-family:"Amiri Quran","Geeza Pro","Noto Naskh Arabic",serif;direction:rtl;line-height:2.15}
+.mut{color:var(--mut)}
+.sm{font-size:13px}
+.card{background:var(--card);border-radius:20px;box-shadow:var(--sh);border:1px solid var(--line);padding:16px;margin:12px 0}
+.card h3{font-size:17px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.row{display:flex;align-items:center;gap:10px}
+.sp{flex:1}
+.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 18px;border-radius:14px;font-weight:600;background:var(--soft);border:1px solid var(--line)}
+.btn.pri{background:var(--green);color:#F3E7C9;border-color:transparent}
+.btn.gold{background:var(--gold);color:#1b1408;border-color:transparent}
+.btn.sm{height:34px;padding:0 12px;font-size:14px;border-radius:10px}
+.btn.full{width:100%}
+.btn:active{transform:scale(.98)}
+.chip{display:inline-flex;align-items:center;height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:14px;white-space:nowrap}
+.chip.on{background:var(--green);color:#F3E7C9;border-color:var(--green)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.bar{height:6px;border-radius:9px;background:var(--soft);overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.bar .m{background:var(--mem)}.bar .l{background:var(--lrn)}
+/* hero */
+.hero{margin:10px -4px 4px;border-radius:26px;padding:22px 20px 20px;color:#F3E7C9;background:radial-gradient(120% 90% at 85% 0%,#1F6B4F 0%,#0E3B2E 55%,#0A2B21 100%);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 4l7 19 19 7-19 7-7 19-7-19-19-7 19-7z' fill='none' stroke='%23E9D3A3' stroke-opacity='.07'/%3E%3C/svg%3E");pointer-events:none}
+.hero .hello{font-size:14px;opacity:.75}
+.hero h1{font-size:32px;color:#F6E9C8;margin:2px 0 14px}
+.hero .ring{display:flex;align-items:center;gap:18px}
+.hero .big{font-family:Fraunces,Georgia,serif;font-size:30px;font-weight:600;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--sh)}
+.stat b{display:block;font-family:Fraunces,Georgia,serif;font-size:22px}
+.stat span{font-size:12px;color:var(--mut)}
+.days{display:flex;gap:4px;align-items:flex-end;height:54px;margin-top:6px}
+.days div{flex:1;background:var(--soft);border-radius:4px;min-height:4px}
+.days div.on{background:var(--g2)}
+.days div.today{outline:2px solid var(--gold);outline-offset:1px}
+/* list */
+.srow{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.num{width:38px;height:38px;flex:none;display:grid;place-items:center;font-weight:700;font-size:13px;border-radius:12px;background:var(--soft);color:var(--mut)}
+.num.done{background:var(--mem);color:#fff}
+.num.part{background:var(--goldL);color:var(--ink)}
+.srow .nm{font-weight:600}
+.srow .ar{font-size:22px;line-height:1.4}
+.seg{display:flex;background:var(--soft);border-radius:12px;padding:3px;gap:3px;margin:12px 0}
+.seg button{flex:1;height:34px;border-radius:9px;font-size:14px;color:var(--mut)}
+.seg button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+/* surah view */
+.top{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -16px;padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid transparent}
+.top.sc{border-bottom-color:var(--line)}
+.back{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--soft)}
+.shead{text-align:center;padding:6px 0 4px}
+.shead .ar{font-size:40px;line-height:1.5}
+.bism{text-align:center;font-size:26px;margin:10px 0 0}
+.ay{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 14px 12px;margin:10px 0;transition:background .25s,border-color .25s,box-shadow .25s;scroll-margin:120px}
+.ay.inr{border-color:var(--goldL)}
+.ay.play{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 25%,transparent)}
+.ay .hd{display:flex;align-items:center;gap:8px}
+.med{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;border:2px solid var(--new);color:var(--mut);flex:none}
+.med.s1{border-color:var(--lrn);color:var(--lrn)}
+.med.s2{background:var(--mem);border-color:var(--mem);color:#fff}
+.stl{font-size:12px;color:var(--mut)}
+.ay .t{font-size:var(--fs,28px);margin:6px 0 2px;text-align:right}
+.ay .fr{font-size:15px;color:var(--mut)}
+.ay .tl{font-size:14px;font-style:italic;color:var(--g2);margin-top:2px}
+.ibtn{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--soft);font-size:15px}
+.test .ay .t,.test .ay .tl{filter:blur(9px);transition:filter .2s}
+.test .ay.rev .t,.test .ay.rev .tl{filter:none}
+.sel{display:flex;gap:10px;align-items:center;margin:4px 0 12px}
+.sel label{flex:1;font-size:13px;color:var(--mut)}
+.sel select{display:block;width:100%;margin-top:4px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);padding:0 10px;font-size:16px}
+.plan{font-size:13px;color:var(--mut);margin-top:10px;line-height:1.6}
+.plan b{color:var(--ink);font-weight:600}
+/* tab bar */
+#tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--card) 88%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom)}
+#tabs button{flex:1;max-width:200px;height:var(--tab);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;color:var(--mut)}
+#tabs button svg{width:24px;height:24px}
+#tabs button.on{color:var(--g2);font-weight:600}
+/* player */
+#player{position:fixed;left:10px;right:10px;bottom:calc(var(--tab) + env(safe-area-inset-bottom) + 8px);z-index:21;max-width:660px;margin:0 auto;background:var(--green);color:#F3E7C9;border-radius:22px;padding:12px 14px 10px;box-shadow:0 10px 30px rgba(0,0,0,.28);display:none}
+#player.on{display:block}
+#player .pt{display:flex;align-items:center;gap:8px;font-size:13px}
+.ph{font-size:11px;font-weight:800;letter-spacing:.06em;padding:3px 8px;border-radius:7px;background:#E9D3A3;color:#0E3B2E}
+.ph.gap{background:#F0B44A;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.6}}
+#player .lbl{font-weight:600;font-size:15px;margin:6px 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#player .bar{background:rgba(255,255,255,.14);height:4px;margin:8px 0}
+#player .bar i{background:#E9D3A3;transition:width .3s}
+#player .bar.g i{background:#F0B44A;transition:none}
+#player .ctl{display:flex;align-items:center;justify-content:space-between}
+#player .ctl button{width:46px;height:42px;border-radius:12px;display:grid;place-items:center;color:#F3E7C9}
+#player .ctl button svg{width:24px;height:24px}
+#player .ctl .pp{width:56px;height:46px;background:#E9D3A3;color:#0E3B2E;border-radius:16px}
+#player .spd{width:auto!important;padding:0 10px;font-weight:700;font-size:14px;border:1px solid rgba(233,211,163,.35)}
+/* sheet */
+#sheet{position:fixed;inset:0;z-index:40;display:none}
+#sheet.on{display:block}
+#sheet .bd{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+#sheet .pn{position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:10px 18px calc(22px + env(safe-area-inset-bottom));max-width:680px;margin:0 auto;animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 12px}
+.set{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.set:last-child{border-bottom:0}
+.set .k{flex:1}
+.set .k small{display:block;color:var(--mut);font-size:12px}
+.stp{display:flex;align-items:center;gap:4px;background:var(--soft);border-radius:12px;padding:3px}
+.stp button{width:34px;height:32px;border-radius:9px;font-size:18px;font-weight:600}
+.stp b{min-width:30px;text-align:center}
+.sw{width:50px;height:30px;border-radius:99px;background:var(--new);position:relative;transition:.2s;flex:none}
+.sw:after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.sw.on{background:var(--mem)}.sw.on:after{left:23px}
+select.full{width:100%;height:46px;border-radius:12px;border:1px solid var(--line);background:var(--card);padding:0 12px;font-size:16px}
+textarea{width:100%;min-height:110px;border-radius:12px;border:1px solid var(--line);background:var(--card);padding:10px;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 12px);transform:translateX(-50%) translateY(-120%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:14px;z-index:60;transition:transform .25s;max-width:90vw;text-align:center}
+#toast.on{transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;color:var(--mut);padding:10px 0;font-size:14px}
+.rv{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.rv:last-child{border-bottom:0}
+.tag{font-size:11px;padding:2px 7px;border-radius:6px;background:var(--goldL);color:var(--ink);font-weight:600}
+.legend{display:flex;gap:12px;font-size:12px;color:var(--mut);margin-top:8px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:0}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="player"></div>
+<nav id="tabs"></nav>
+<div id="sheet"><div class="bd" data-act="closeSheet"></div><div class="pn"></div></div>
+<div id="toast"></div>
+<script>
+"use strict";
+const DATA = [{"n":78,"ar":"النبإ","tr":"An-Naba","fr":"La nouvelle","t":"meccan","v":[["عَمَّ يَتَسَآءَلُونَ","Sur quoi s'interrogent-ils mutuellement","AAamma yatasaaloona"],["عَنِ ٱلنَّبَإِ ٱلۡعَظِيمِ","Sur la grande nouvelle","AAani alnnabai alAAatheemi"],["ٱلَّذِي هُمۡ فِيهِ مُخۡتَلِفُونَ","à propos de laquelle ils divergent","Allathee hum feehi mukhtalifoona"],["كَلَّا سَيَعۡلَمُونَ","Eh bien non! Ils sauront bientôt","Kalla sayaAAlamoona"],["ثُمَّ كَلَّا سَيَعۡلَمُونَ","Encore une fois, non! Ils sauront bientôt","Thumma kalla sayaAAlamoona"],["أَلَمۡ نَجۡعَلِ ٱلۡأَرۡضَ مِهَٰدٗا","N'avons-Nous pas fait de la terre une couche","Alam najAAali alarda mihadan"],["وَٱلۡجِبَالَ أَوۡتَادٗا","et (placé) les montagnes comme des piquets","Waaljibala awtadan"],["وَخَلَقۡنَٰكُمۡ أَزۡوَٰجٗا","Nous vous avons créés en couples","Wakhalaqnakum azwajan"],["وَجَعَلۡنَا نَوۡمَكُمۡ سُبَاتٗا","et désigné votre sommeil pour votre repos","WajaAAalna nawmakum subatan"],["وَجَعَلۡنَا ٱلَّيۡلَ لِبَاسٗا","et fait de la nuit un vêtement","WajaAAalna allayla libasan"],["وَجَعَلۡنَا ٱلنَّهَارَ مَعَاشٗا","et assigné le jour pour les affaires de la vie","WajaAAalna alnnahara maAAashan"],["وَبَنَيۡنَا فَوۡقَكُمۡ سَبۡعٗا شِدَادٗا","et construit au-dessus de vous sept (cieux) renforcés","Wabanayna fawqakum sabAAan shidadan"],["وَجَعَلۡنَا سِرَاجٗا وَهَّاجٗا","et [y] avons placé une lampe (le soleil) très ardente","WajaAAalna sirajan wahhajan"],["وَأَنزَلۡنَا مِنَ ٱلۡمُعۡصِرَٰتِ مَآءٗ ثَجَّاجٗا","et fait descendre des nuées une eau abondante","Waanzalna mina almuAAsirati maan thajjajan"],["لِّنُخۡرِجَ بِهِۦ حَبّٗا وَنَبَاتٗا","pour faire pousser par elle grains et plantes","Linukhrija bihi habban wanabatan"],["وَجَنَّـٰتٍ أَلۡفَافًا","et jardins luxuriants","Wajannatin alfafan"],["إِنَّ يَوۡمَ ٱلۡفَصۡلِ كَانَ مِيقَٰتٗا","Le Jour de la Décision [du Jugement] a son terme fixé","Inna yawma alfasli kana meeqatan"],["يَوۡمَ يُنفَخُ فِي ٱلصُّورِ فَتَأۡتُونَ أَفۡوَاجٗا","Le jour où l'on soufflera dans la Trompe, vous viendrez par troupes","Yawma yunfakhu fee alssoori fatatoona afwajan"],["وَفُتِحَتِ ٱلسَّمَآءُ فَكَانَتۡ أَبۡوَٰبٗا","et le ciel sera ouvert et [présentera] des portes","Wafutihati alssamao fakanat abwaban"],["وَسُيِّرَتِ ٱلۡجِبَالُ فَكَانَتۡ سَرَابًا","et les montagnes seront mises en marche et deviendront un mirage","Wasuyyirati aljibalu fakanat saraban"],["إِنَّ جَهَنَّمَ كَانَتۡ مِرۡصَادٗا","L'Enfer demeure aux aguets","Inna jahannama kanat mirsadan"],["لِّلطَّـٰغِينَ مَـَٔابٗا","refuge pour les transgresseurs","Lilttagheena maaban"],["لَّـٰبِثِينَ فِيهَآ أَحۡقَابٗا","Ils y demeureront pendant des siècles successifs","Labitheena feeha ahqaban"],["لَّا يَذُوقُونَ فِيهَا بَرۡدٗا وَلَا شَرَابًا","Ils n'y goûteront ni fraîcheur ni breuvage","La yathooqoona feeha bardan wala sharaban"],["إِلَّا حَمِيمٗا وَغَسَّاقٗا","Hormis une eau bouillante et un pus","Illa hameeman waghassaqan"],["جَزَآءٗ وِفَاقًا","comme rétribution équitable","Jazaan wifaqan"],["إِنَّهُمۡ كَانُواْ لَا يَرۡجُونَ حِسَابٗا","Car ils ne s'attendaient pas à rendre compte","Innahum kanoo la yarjoona hisaban"],["وَكَذَّبُواْ بِـَٔايَٰتِنَا كِذَّابٗا","et traitaient de mensonges, continuellement, Nos versets","Wakaththaboo biayatina kiththaban"],["وَكُلَّ شَيۡءٍ أَحۡصَيۡنَٰهُ كِتَٰبٗا","alors que Nous avons dénombré toutes choses en écrit","Wakulla shayin ahsaynahu kitaban"],["فَذُوقُواْ فَلَن نَّزِيدَكُمۡ إِلَّا عَذَابًا","Goûtez-donc. Nous n'augmenterons pour vous que le châtiment","Fathooqoo falan nazeedakum illa AAathaban"],["إِنَّ لِلۡمُتَّقِينَ مَفَازًا","Pour les pieux ce sera une réussite","Inna lilmuttaqeena mafazan"],["حَدَآئِقَ وَأَعۡنَٰبٗا","jardins et vignes","Hadaiqa waaAAnaban"],["وَكَوَاعِبَ أَتۡرَابٗا","et des (belles) aux seins arrondis, d'une égale jeunesse","WakawaAAiba atraban"],["وَكَأۡسٗا دِهَاقٗا","et coupes débordantes","Wakasan dihaqan"],["لَّا يَسۡمَعُونَ فِيهَا لَغۡوٗا وَلَا كِذَّـٰبٗا","Ils n'y entendront ni futilités ni mensonges","La yasmaAAoona feeha laghwan wala kiththaban"],["جَزَآءٗ مِّن رَّبِّكَ عَطَآءً حِسَابٗا","A titre de récompense de ton Seigneur et à titre de don abondant","Jazaan min rabbika AAataan hisaban"],["رَّبِّ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِ وَمَا بَيۡنَهُمَا ٱلرَّحۡمَٰنِۖ لَا يَمۡلِكُونَ مِنۡهُ خِطَابٗا","du Seigneur des cieux et de la terre et de ce qui existe entre eux, le Tout Miséricordieux; ils n'osent nullement Lui adresser la parole","Rabbi alssamawati waalardi wama baynahuma alrrahmani la yamlikoona minhu khitaban"],["يَوۡمَ يَقُومُ ٱلرُّوحُ وَٱلۡمَلَـٰٓئِكَةُ صَفّٗاۖ لَّا يَتَكَلَّمُونَ إِلَّا مَنۡ أَذِنَ لَهُ ٱلرَّحۡمَٰنُ وَقَالَ صَوَابٗا","Le jour où l'Esprit et les Anges se dresseront en rangs, nul ne saura parler, sauf celui à qui le Tout Miséricordieux aura accordé la permission, et qui dira la vérité","Yawma yaqoomu alrroohu waalmalaikatu saffan la yatakallamoona illa man athina lahu alrrahmanu waqala sawaban"],["ذَٰلِكَ ٱلۡيَوۡمُ ٱلۡحَقُّۖ فَمَن شَآءَ ٱتَّخَذَ إِلَىٰ رَبِّهِۦ مَـَٔابًا","Ce jour-là est inéluctable. Que celui qui veut prenne donc refuge auprès de son Seigneur","Thalika alyawmu alhaqqu faman shaa ittakhatha ila rabbihi maaban"],["إِنَّآ أَنذَرۡنَٰكُمۡ عَذَابٗا قَرِيبٗا يَوۡمَ يَنظُرُ ٱلۡمَرۡءُ مَا قَدَّمَتۡ يَدَاهُ وَيَقُولُ ٱلۡكَافِرُ يَٰلَيۡتَنِي كُنتُ تُرَٰبَۢا","Nous vous avons avertis d'un châtiment bien proche, le jour où l'homme verra ce que ses deux mains ont préparé; et l'infidèle dira: «Hélas pour moi! Comme j'aurais aimé n'être que poussière»","Inna antharnakum AAathaban qareeban yawma yanthuru almaro ma qaddamat yadahu wayaqoolu alkafiru ya laytanee kuntu turaban"]]},{"n":79,"ar":"النازعات","tr":"An-Nazi'at","fr":"Ceux qui arrachent","t":"meccan","v":[["وَٱلنَّـٰزِعَٰتِ غَرۡقٗا","Par ceux qui arrachent violemment","WaalnnaziAAati gharqan"],["وَٱلنَّـٰشِطَٰتِ نَشۡطٗا","Et par ceux qui recueillent avec douceur","Waalnnashitati nashtan"],["وَٱلسَّـٰبِحَٰتِ سَبۡحٗا","Et par ceux qui voguent librement","Waalssabihati sabhan"],["فَٱلسَّـٰبِقَٰتِ سَبۡقٗا","puis s'élancent à toute vitesse","Faalssabiqati sabqan"],["فَٱلۡمُدَبِّرَٰتِ أَمۡرٗا","et règlent les affaires","Faalmudabbirati amran"],["يَوۡمَ تَرۡجُفُ ٱلرَّاجِفَةُ","Le jour où [la terre] tremblera [au premier son du clairon]","Yawma tarjufu alrrajifatu"],["تَتۡبَعُهَا ٱلرَّادِفَةُ","immédiatement suivi du deuxième","TatbaAAuha alrradifatu"],["قُلُوبٞ يَوۡمَئِذٖ وَاجِفَةٌ","Ce jour-là, il y aura des cœurs qui seront agités d'effroi","Quloobun yawmaithin wajifatun"],["أَبۡصَٰرُهَا خَٰشِعَةٞ","et leurs regards se baisseront","Absaruha khashiAAatun"],["يَقُولُونَ أَءِنَّا لَمَرۡدُودُونَ فِي ٱلۡحَافِرَةِ","Ils disent: «Quoi! Serons-nous ramenés à notre vie première","Yaqooloona ainna lamardoodoona fee alhafirati"],["أَءِذَا كُنَّا عِظَٰمٗا نَّخِرَةٗ","quand nous serons ossements pourris?»","Aitha kunna AAithaman nakhiratan"],["قَالُواْ تِلۡكَ إِذٗا كَرَّةٌ خَاسِرَةٞ","Ils disent: «ce sera alors un retour ruineux!»","Qaloo tilka ithan karratun khasiratun"],["فَإِنَّمَا هِيَ زَجۡرَةٞ وَٰحِدَةٞ","Il n'y aura qu'une sommation","Fainnama hiya zajratun wahidatun"],["فَإِذَا هُم بِٱلسَّاهِرَةِ","et voilà qu'ils seront sur la terre (ressuscités)","Faitha hum bialssahirati"],["هَلۡ أَتَىٰكَ حَدِيثُ مُوسَىٰٓ","Le récit de Moïse t'est-il parvenu","Hal ataka hadeethu moosa"],["إِذۡ نَادَىٰهُ رَبُّهُۥ بِٱلۡوَادِ ٱلۡمُقَدَّسِ طُوًى","Quand son Seigneur l'appela, dans Towâ, la vallée sanctifiée","Ith nadahu rabbuhu bialwadi almuqaddasi tuwan"],["ٱذۡهَبۡ إِلَىٰ فِرۡعَوۡنَ إِنَّهُۥ طَغَىٰ","«Va vers Pharaon. Vraiment, il s'est rebellé!»","Ithhab ila firAAawna innahu tagha"],["فَقُلۡ هَل لَّكَ إِلَىٰٓ أَن تَزَكَّىٰ","Puis dis-lui: «Voudrais-tu te purifier","Faqul hal laka ila an tazakka"],["وَأَهۡدِيَكَ إِلَىٰ رَبِّكَ فَتَخۡشَىٰ","et que je te guide vers ton Seigneur afin que tu Le craignes?»","Waahdiyaka ila rabbika fatakhsha"],["فَأَرَىٰهُ ٱلۡأٓيَةَ ٱلۡكُبۡرَىٰ","Il lui fit voir le très grand miracle","Faarahu alayata alkubra"],["فَكَذَّبَ وَعَصَىٰ","Mais il le qualifia de mensonge et désobéit","Fakaththaba waAAasa"],["ثُمَّ أَدۡبَرَ يَسۡعَىٰ","Ensuite, il tourna le dos, s'en alla précipitamment","Thumma adbara yasAAa"],["فَحَشَرَ فَنَادَىٰ","rassembla [les gens] et leur fit une proclamation","Fahashara fanada"],["فَقَالَ أَنَا۠ رَبُّكُمُ ٱلۡأَعۡلَىٰ","et dit: «C'est moi votre Seigneur, le très haut»","Faqala ana rabbukumu alaAAla"],["فَأَخَذَهُ ٱللَّهُ نَكَالَ ٱلۡأٓخِرَةِ وَٱلۡأُولَىٰٓ","Alors Allah le saisit de la punition exemplaire de l'au-delà et de celle d'ici-bas","Faakhathahu Allahu nakala alakhirati waaloola"],["إِنَّ فِي ذَٰلِكَ لَعِبۡرَةٗ لِّمَن يَخۡشَىٰٓ","Il y a certes là un sujet de réflexion pour celui qui craint","Inna fee thalika laAAibratan liman yakhsha"],["ءَأَنتُمۡ أَشَدُّ خَلۡقًا أَمِ ٱلسَّمَآءُۚ بَنَىٰهَا","Etes-vous plus durs à créer? ou le ciel, qu'Il a pourtant construit","Aantum ashaddu khalqan ami alssamao banaha"],["رَفَعَ سَمۡكَهَا فَسَوَّىٰهَا","Il a élevé bien haut sa voûte, puis l'a parfaitement ordonné","RafaAAa samkaha fasawwaha"],["وَأَغۡطَشَ لَيۡلَهَا وَأَخۡرَجَ ضُحَىٰهَا","Il a assombri sa nuit et fait luire son jour","Waaghtasha laylaha waakhraja duhaha"],["وَٱلۡأَرۡضَ بَعۡدَ ذَٰلِكَ دَحَىٰهَآ","Et quant à la terre, après cela, Il l'a étendue","Waalarda baAAda thalika dahaha"],["أَخۡرَجَ مِنۡهَا مَآءَهَا وَمَرۡعَىٰهَا","Il a fait sortir d'elle son eau et son pâturage","Akhraja minha maaha wamarAAaha"],["وَٱلۡجِبَالَ أَرۡسَىٰهَا","et quant aux montagnes, Il les a ancrées","Waaljibala arsaha"],["مَتَٰعٗا لَّكُمۡ وَلِأَنۡعَٰمِكُمۡ","pour votre jouissance, vous et vos bestiaux","MataAAan lakum walianAAamikum"],["فَإِذَا جَآءَتِ ٱلطَّآمَّةُ ٱلۡكُبۡرَىٰ","Puis quand viendra le grand cataclysme","Faitha jaati alttammatu alkubra"],["يَوۡمَ يَتَذَكَّرُ ٱلۡإِنسَٰنُ مَا سَعَىٰ","le jour où l'homme se rappellera à quoi il s'est efforcé","Yawma yatathakkaru alinsanu ma saAAa"],["وَبُرِّزَتِ ٱلۡجَحِيمُ لِمَن يَرَىٰ","l'Enfer sera pleinement visible à celui qui regardera","Waburrizati aljaheemu liman yara"],["فَأَمَّا مَن طَغَىٰ","Quant à celui qui aura dépassé les limites","Faamma man tagha"],["وَءَاثَرَ ٱلۡحَيَوٰةَ ٱلدُّنۡيَا","et aura préféré la vie présente","Waathara alhayata alddunya"],["فَإِنَّ ٱلۡجَحِيمَ هِيَ ٱلۡمَأۡوَىٰ","alors, l'Enfer sera son refuge","Fainna aljaheema hiya almawa"],["وَأَمَّا مَنۡ خَافَ مَقَامَ رَبِّهِۦ وَنَهَى ٱلنَّفۡسَ عَنِ ٱلۡهَوَىٰ","Et pour celui qui aura redouté de comparaître devant son Seigneur, et préservé son âme de la passion","Waama man khafa maqama rabbihi wanaha alnnafsa AAani alhawa"],["فَإِنَّ ٱلۡجَنَّةَ هِيَ ٱلۡمَأۡوَىٰ","le Paradis sera alors son refuge","Fainna aljannata hiya almawa"],["يَسۡـَٔلُونَكَ عَنِ ٱلسَّاعَةِ أَيَّانَ مُرۡسَىٰهَا","Ils t'interrogent au sujet de l'Heure: «Quand va-t-elle jeter l'ancre?»","Yasaloonaka AAani alssaAAati ayyana mursaha"],["فِيمَ أَنتَ مِن ذِكۡرَىٰهَآ","Quelle [science] en as-tu pour le leur dire","Feema anta min thikraha"],["إِلَىٰ رَبِّكَ مُنتَهَىٰهَآ","Son terme n'est connu que de ton Seigneur","Ila rabbika muntahaha"],["إِنَّمَآ أَنتَ مُنذِرُ مَن يَخۡشَىٰهَا","Tu n'es que l'avertisseur de celui qui la redoute","Innama anta munthiru man yakhshaha"],["كَأَنَّهُمۡ يَوۡمَ يَرَوۡنَهَا لَمۡ يَلۡبَثُوٓاْ إِلَّا عَشِيَّةً أَوۡ ضُحَىٰهَا","Le jour où ils la verront, il leur semblera n'avoir demeuré qu'un soir ou un matin","Kaannahum yawma yarawnaha lam yalbathoo illa AAashiyyatan aw duhaha"]]},{"n":80,"ar":"عبس","tr":"'Abasa","fr":"Il s'est renfrogné","t":"meccan","v":[["عَبَسَ وَتَوَلَّىٰٓ","Il s'est renfrogné et il s'est détourné","AAabasa watawalla"],["أَن جَآءَهُ ٱلۡأَعۡمَىٰ","parce que l'aveugle est venu à lui","An jaahu alaAAma"],["وَمَا يُدۡرِيكَ لَعَلَّهُۥ يَزَّكَّىٰٓ","Qui te dit: peut-être [cherche]-t-il à se purifier","Wama yudreeka laAAallahu yazzakka"],["أَوۡ يَذَّكَّرُ فَتَنفَعَهُ ٱلذِّكۡرَىٰٓ","ou à se rappeler en sorte que le rappel lui profite","Aw yaththakkaru fatanfaAAahu alththikra"],["أَمَّا مَنِ ٱسۡتَغۡنَىٰ","Quant à celui qui se complaît dans sa suffisance (pour sa richesse)","Amma mani istaghna"],["فَأَنتَ لَهُۥ تَصَدَّىٰ","tu vas avec empressement à sa rencontre","Faanta lahu tasadda"],["وَمَا عَلَيۡكَ أَلَّا يَزَّكَّىٰ","Or, que t'importe qu'il ne se purifie pas»","Wama AAalayka alla yazzakka"],["وَأَمَّا مَن جَآءَكَ يَسۡعَىٰ","Et quant à celui qui vient à toi avec empressement","Waamma man jaaka yasAAa"],["وَهُوَ يَخۡشَىٰ","tout en ayant la crainte","Wahuwa yakhsha"],["فَأَنتَ عَنۡهُ تَلَهَّىٰ","tu ne t'en soucies pas","Faanta AAanhu talahha"],["كَلَّآ إِنَّهَا تَذۡكِرَةٞ","N'agis plus ainsi! Vraiment ceci est un rappel","Kalla innaha tathkiratun"],["فَمَن شَآءَ ذَكَرَهُۥ","quiconque veut, donc, s'en rappelle","Faman shaa thakarahu"],["فِي صُحُفٖ مُّكَرَّمَةٖ","consigné dans des feuilles honorées","Fee suhufin mukarramatin"],["مَّرۡفُوعَةٖ مُّطَهَّرَةِۭ","élevées, purifiées","MarfooAAatin mutahharatin"],["بِأَيۡدِي سَفَرَةٖ","entre les mains d'ambassadeurs","Biaydee safaratin"],["كِرَامِۭ بَرَرَةٖ","nobles, obéissants","Kiramin bararatin"],["قُتِلَ ٱلۡإِنسَٰنُ مَآ أَكۡفَرَهُۥ","Que périsse l'homme! Qu'il est ingrat","Qutila alinsanu ma akfarahu"],["مِنۡ أَيِّ شَيۡءٍ خَلَقَهُۥ","De quoi [Allah] l'a-t-Il créé","Min ayyi shayin khalaqahu"],["مِن نُّطۡفَةٍ خَلَقَهُۥ فَقَدَّرَهُۥ","D'une goutte de sperme, Il le crée et détermine (son destin)","Min nutfatin khalaqahu faqaddarahu"],["ثُمَّ ٱلسَّبِيلَ يَسَّرَهُۥ","puis Il lui facilite le chemin","Thumma alssabeela yassarahu"],["ثُمَّ أَمَاتَهُۥ فَأَقۡبَرَهُۥ","puis Il lui donne la mort et le met au tombeau","Thumma amatahu faaqbarahu"],["ثُمَّ إِذَا شَآءَ أَنشَرَهُۥ","puis Il le ressuscitera quand Il voudra","Thumma itha shaa ansharahu"],["كَلَّا لَمَّا يَقۡضِ مَآ أَمَرَهُۥ","Eh bien non! [L'homme] n'accomplit pas ce qu'Il lui commande","Kalla lamma yaqdi ma amarahu"],["فَلۡيَنظُرِ ٱلۡإِنسَٰنُ إِلَىٰ طَعَامِهِۦٓ","Que l'homme considère donc sa nourriture","Falyanthuri alinsanu ila taAAamihi"],["أَنَّا صَبَبۡنَا ٱلۡمَآءَ صَبّٗا","C'est Nous qui versons l'eau abondante","Anna sababna almaa sabban"],["ثُمَّ شَقَقۡنَا ٱلۡأَرۡضَ شَقّٗا","puis Nous fendons la terre par fissures","Thumma shaqaqna alarda shaqqan"],["فَأَنۢبَتۡنَا فِيهَا حَبّٗا","et y faisons pousser grains","Faanbatna feeha habban"],["وَعِنَبٗا وَقَضۡبٗا","vignobles et légumes","WaAAinaban waqadban"],["وَزَيۡتُونٗا وَنَخۡلٗا","oliviers et palmiers","Wazaytoonan wanakhlan"],["وَحَدَآئِقَ غُلۡبٗا","jardins touffus","Wahadaiqa ghulban"],["وَفَٰكِهَةٗ وَأَبّٗا","fruits et herbages","Wafakihatan waabban"],["مَّتَٰعٗا لَّكُمۡ وَلِأَنۡعَٰمِكُمۡ","pour votre jouissance vous et vos bestiaux","MataAAan lakum walianAAamikum"],["فَإِذَا جَآءَتِ ٱلصَّآخَّةُ","Puis quand viendra le Fracas","Faitha jaati alssakhkhatu"],["يَوۡمَ يَفِرُّ ٱلۡمَرۡءُ مِنۡ أَخِيهِ","le jour où l'homme s'enfuira de son frère","Yawma yafirru almaro min akheehi"],["وَأُمِّهِۦ وَأَبِيهِ","de sa mère, de son père","Waommihi waabeehi"],["وَصَٰحِبَتِهِۦ وَبَنِيهِ","de sa compagne et de ses enfants","Wasahibatihi wabaneehi"],["لِكُلِّ ٱمۡرِيٕٖ مِّنۡهُمۡ يَوۡمَئِذٖ شَأۡنٞ يُغۡنِيهِ","car chacun d'eux, ce jour-là, aura son propre cas pour l'occuper","Likulli imriin minhum yawmaithin shanun yughneehi"],["وُجُوهٞ يَوۡمَئِذٖ مُّسۡفِرَةٞ","Ce jour-là, il y aura des visages rayonnants","Wujoohun yawmaithin musfiratun"],["ضَاحِكَةٞ مُّسۡتَبۡشِرَةٞ","riants et réjouis","Dahikatun mustabshiratun"],["وَوُجُوهٞ يَوۡمَئِذٍ عَلَيۡهَا غَبَرَةٞ","De même qu'il y aura, ce jour-là, des visages couverts de poussière","Wawujoohun yawmaithin AAalayha ghabaratun"],["تَرۡهَقُهَا قَتَرَةٌ","recouverts de ténèbres","Tarhaquha qataratun"],["أُوْلَـٰٓئِكَ هُمُ ٱلۡكَفَرَةُ ٱلۡفَجَرَةُ","Voilà les infidèles, les libertins","Olaika humu alkafaratu alfajaratu"]]},{"n":81,"ar":"التكوير","tr":"At-Takwir","fr":"L'obscurcissement","t":"meccan","v":[["إِذَا ٱلشَّمۡسُ كُوِّرَتۡ","Quand le soleil sera obscurci","Itha alshshamsu kuwwirat"],["وَإِذَا ٱلنُّجُومُ ٱنكَدَرَتۡ","et que les étoiles deviendront ternes","Waitha alnnujoomu inkadarat"],["وَإِذَا ٱلۡجِبَالُ سُيِّرَتۡ","et les montagnes mises en marche","Waitha aljibalu suyyirat"],["وَإِذَا ٱلۡعِشَارُ عُطِّلَتۡ","et les chamelles à terme, négligées","Waitha alAAisharu AAuttilat"],["وَإِذَا ٱلۡوُحُوشُ حُشِرَتۡ","et les bêtes farouches, rassemblées","Waitha alwuhooshu hushirat"],["وَإِذَا ٱلۡبِحَارُ سُجِّرَتۡ","et les mers allumées","Waitha albiharu sujjirat"],["وَإِذَا ٱلنُّفُوسُ زُوِّجَتۡ","et les âmes accouplées","Waitha alnnufoosu zuwwijat"],["وَإِذَا ٱلۡمَوۡءُۥدَةُ سُئِلَتۡ","et qu'on demandera à la fillette enterrée vivante","Waitha almawoodatu suilat"],["بِأَيِّ ذَنۢبٖ قُتِلَتۡ","pour quel péché elle a été tuée","Biayyi thanbin qutilat"],["وَإِذَا ٱلصُّحُفُ نُشِرَتۡ","Et quand les feuilles seront déployées","Waitha alssuhufu nushirat"],["وَإِذَا ٱلسَّمَآءُ كُشِطَتۡ","et le ciel écorché","Waitha alssamao kushitat"],["وَإِذَا ٱلۡجَحِيمُ سُعِّرَتۡ","et la fournaise attisée","Waitha aljaheemu suAAAAirat"],["وَإِذَا ٱلۡجَنَّةُ أُزۡلِفَتۡ","et le Paradis rapproché","Waitha aljannatu ozlifat"],["عَلِمَتۡ نَفۡسٞ مَّآ أَحۡضَرَتۡ","chaque âme saura ce qu'elle a présenté","AAalimat nafsun ma ahdarat"],["فَلَآ أُقۡسِمُ بِٱلۡخُنَّسِ","Non!... Je jure par les planètes qui gravitent","Fala oqsimu bialkhunnasi"],["ٱلۡجَوَارِ ٱلۡكُنَّسِ","qui courent et disparaissent","Aljawari alkunnasi"],["وَٱلَّيۡلِ إِذَا عَسۡعَسَ","par la nuit quand elle survient","Waallayli itha AAasAAasa"],["وَٱلصُّبۡحِ إِذَا تَنَفَّسَ","et par l'aube quand elle exhale son souffle","Waalssubhi itha tanaffasa"],["إِنَّهُۥ لَقَوۡلُ رَسُولٖ كَرِيمٖ","Ceci [le Coran] est la parole d'un noble Messager","Innahu laqawlu rasoolin kareemin"],["ذِي قُوَّةٍ عِندَ ذِي ٱلۡعَرۡشِ مَكِينٖ","doué d'une grande force, et ayant un rang élevé auprès du Maître du Trône","Thee quwwatin AAinda thee alAAarshi makeenin"],["مُّطَاعٖ ثَمَّ أَمِينٖ","obéi, là-haut, et digne de confiance","MutaAAin thamma ameenin"],["وَمَا صَاحِبُكُم بِمَجۡنُونٖ","Votre compagnon (Muhammad) n'est nullement fou","Wama sahibukum bimajnoonin"],["وَلَقَدۡ رَءَاهُ بِٱلۡأُفُقِ ٱلۡمُبِينِ","il l'a effectivement vu (Gabriel), au clair horizon","Walaqad raahu bialofuqi almubeeni"],["وَمَا هُوَ عَلَى ٱلۡغَيۡبِ بِضَنِينٖ","et il ne garde pas avarement pour lui-même ce qui lui a été révélé","Wama huwa AAala alghaybi bidaneenin"],["وَمَا هُوَ بِقَوۡلِ شَيۡطَٰنٖ رَّجِيمٖ","Et ceci [le Coran] n'est point la parole d'un diable banni","Wama huwa biqawli shaytanin rajeemin"],["فَأَيۡنَ تَذۡهَبُونَ","Où allez-vous donc","Faayna tathhaboona"],["إِنۡ هُوَ إِلَّا ذِكۡرٞ لِّلۡعَٰلَمِينَ","Ceci n'est qu'un rappel pour l'univers","In huwa illa thikrun lilAAalameena"],["لِمَن شَآءَ مِنكُمۡ أَن يَسۡتَقِيمَ","pour celui d'entre vous qui veut suivre le chemin droit","Liman shaa minkum an yastaqeema"],["وَمَا تَشَآءُونَ إِلَّآ أَن يَشَآءَ ٱللَّهُ رَبُّ ٱلۡعَٰلَمِينَ","Mais vous ne pouvez vouloir, que si Allah veut, [Lui], le Seigneur de l'Univers","Wama tashaoona illa an yashaa Allahu rabbu alAAalameena"]]},{"n":82,"ar":"الإنفطار","tr":"Al-Infitar","fr":"La rupture","t":"meccan","v":[["إِذَا ٱلسَّمَآءُ ٱنفَطَرَتۡ","Quand le ciel se rompra","Itha alssamao infatarat"],["وَإِذَا ٱلۡكَوَاكِبُ ٱنتَثَرَتۡ","et que les étoiles se disperseront","Waitha alkawakibu intatharat"],["وَإِذَا ٱلۡبِحَارُ فُجِّرَتۡ","et que les mers confondront leurs eaux","Waitha albiharu fujjirat"],["وَإِذَا ٱلۡقُبُورُ بُعۡثِرَتۡ","et que les tombeaux seront bouleversés","Waitha alqubooru buAAthirat"],["عَلِمَتۡ نَفۡسٞ مَّا قَدَّمَتۡ وَأَخَّرَتۡ","toute âme saura alors ce qu'elle a accompli et ce qu'elle a remis de faire à plus tard","AAalimat nafsun ma qaddamat waakhkharat"],["يَـٰٓأَيُّهَا ٱلۡإِنسَٰنُ مَا غَرَّكَ بِرَبِّكَ ٱلۡكَرِيمِ","O homme! Qu'est-ce qui t'a trompé au sujet de ton Seigneur, le Noble","Ya ayyuha alinsanu ma gharraka birabbika alkareemi"],["ٱلَّذِي خَلَقَكَ فَسَوَّىٰكَ فَعَدَلَكَ","qui t'a créé, puis modelé et constitué harmonieusement","Allathee khalaqaka fasawwaka faAAadalaka"],["فِيٓ أَيِّ صُورَةٖ مَّا شَآءَ رَكَّبَكَ","Il t'a façonné dans la forme qu'Il a voulue","Fee ayyi sooratin ma shaa rakkabaka"],["كَلَّا بَلۡ تُكَذِّبُونَ بِٱلدِّينِ","Non...! [malgré tout] vous traitez la Rétribution de mensonge","Kalla bal tukaththiboona bialddeeni"],["وَإِنَّ عَلَيۡكُمۡ لَحَٰفِظِينَ","alors que veillent sur vous des gardiens","Wainna AAalaykum lahafitheena"],["كِرَامٗا كَٰتِبِينَ","de nobles scribes","Kiraman katibeena"],["يَعۡلَمُونَ مَا تَفۡعَلُونَ","qui savent ce que vous faites","YaAAlamoona ma tafAAaloona"],["إِنَّ ٱلۡأَبۡرَارَ لَفِي نَعِيمٖ","Les bons seront, certes, dans un [jardin] de délice","Inna alabrara lafee naAAeemin"],["وَإِنَّ ٱلۡفُجَّارَ لَفِي جَحِيمٖ","et les libertins seront, certes, dans une fournaise","Wainna alfujjara lafee jaheemin"],["يَصۡلَوۡنَهَا يَوۡمَ ٱلدِّينِ","où ils brûleront, le jour de la Rétribution","Yaslawnaha yawma alddeeni"],["وَمَا هُمۡ عَنۡهَا بِغَآئِبِينَ","incapables de s'en échapper","Wama hum AAanha bighaibeena"],["وَمَآ أَدۡرَىٰكَ مَا يَوۡمُ ٱلدِّينِ","Et qui te dira ce qu'est le jour de la Rétribution","Wama adraka ma yawmu alddeeni"],["ثُمَّ مَآ أَدۡرَىٰكَ مَا يَوۡمُ ٱلدِّينِ","Encore une fois, qui te dira ce qu'est le jour de la Rétribution","Thumma ma adraka ma yawmu alddeeni"],["يَوۡمَ لَا تَمۡلِكُ نَفۡسٞ لِّنَفۡسٖ شَيۡـٔٗاۖ وَٱلۡأَمۡرُ يَوۡمَئِذٖ لِّلَّهِ","Le jour où aucune âme ne pourra rien en faveur d'une autre âme. Et ce jour-là, le commandement sera à Allah","Yawma la tamliku nafsun linafsin shayan waalamru yawmaithin lillahi"]]},{"n":83,"ar":"المطففين","tr":"Al-Mutaffifin","fr":"Les fraudeurs","t":"meccan","v":[["وَيۡلٞ لِّلۡمُطَفِّفِينَ","Malheur aux fraudeurs","Waylun lilmutaffifeena"],["ٱلَّذِينَ إِذَا ٱكۡتَالُواْ عَلَى ٱلنَّاسِ يَسۡتَوۡفُونَ","qui, lorsqu'ils font mesurer pour eux-mêmes exigent la pleine mesure","Allatheena itha iktaloo AAala alnnasi yastawfoona"],["وَإِذَا كَالُوهُمۡ أَو وَّزَنُوهُمۡ يُخۡسِرُونَ","et qui lorsqu'eux-mêmes mesurent ou pèsent pour les autres, [leur] causent perte","Waitha kaloohum aw wazanoohum yukhsiroona"],["أَلَا يَظُنُّ أُوْلَـٰٓئِكَ أَنَّهُم مَّبۡعُوثُونَ","Ceux-là ne pensent-ils pas qu'ils seront ressuscités","Ala yathunnu olaika annahum mabAAoothoona"],["لِيَوۡمٍ عَظِيمٖ","en un jour terrible","Liyawmin AAatheemin"],["يَوۡمَ يَقُومُ ٱلنَّاسُ لِرَبِّ ٱلۡعَٰلَمِينَ","le jour où les gens se tiendront debout devant le Seigneur de l'Univers","Yawma yaqoomu alnnasu lirabbi alAAalameena"],["كَلَّآ إِنَّ كِتَٰبَ ٱلۡفُجَّارِ لَفِي سِجِّينٖ","Non...! Mais en vérité le livre des libertins sera dans le Sijjîn","Kalla inna kitaba alfujjari lafee sijjeenin"],["وَمَآ أَدۡرَىٰكَ مَا سِجِّينٞ","et qui te dira ce qu'est le Sijjîn","Wama adraka ma sijjeenun"],["كِتَٰبٞ مَّرۡقُومٞ","Un livre déjà cacheté (achevé)","Kitabun marqoomun"],["وَيۡلٞ يَوۡمَئِذٖ لِّلۡمُكَذِّبِينَ","Malheur, ce jour-là, aux négateurs","Waylun yawmaithin lilmukaththibeena"],["ٱلَّذِينَ يُكَذِّبُونَ بِيَوۡمِ ٱلدِّينِ","qui démentent le jour de la Rétribution","Allatheena yukaththiboona biyawmi alddeeni"],["وَمَا يُكَذِّبُ بِهِۦٓ إِلَّا كُلُّ مُعۡتَدٍ أَثِيمٍ","Or, ne le dément que tout transgresseur, pécheur","Wama yukaththibu bihi illa kullu muAAtadin atheemin"],["إِذَا تُتۡلَىٰ عَلَيۡهِ ءَايَٰتُنَا قَالَ أَسَٰطِيرُ ٱلۡأَوَّلِينَ","qui, lorsque Nos versets lui sont récités, dit: «[Ce sont] des contes d'anciens!»","Itha tutla AAalayhi ayatuna qala asateeru alawwaleena"],["كَلَّاۖ بَلۡۜ رَانَ عَلَىٰ قُلُوبِهِم مَّا كَانُواْ يَكۡسِبُونَ","Pas du tout, mais ce qu'ils ont accompli couvre leurs cœurs","Kalla bal rana AAala quloobihim ma kanoo yaksiboona"],["كَلَّآ إِنَّهُمۡ عَن رَّبِّهِمۡ يَوۡمَئِذٖ لَّمَحۡجُوبُونَ","Qu'ils prennent garde! En vérité ce jour-là un voile les empêchera de voir leur Seigneur","Kalla innahum AAan rabbihim yawmaithin lamahjooboona"],["ثُمَّ إِنَّهُمۡ لَصَالُواْ ٱلۡجَحِيمِ","ensuite, ils brûleront certes, dans la Fournaise","Thumma innahum lasaloo aljaheemi"],["ثُمَّ يُقَالُ هَٰذَا ٱلَّذِي كُنتُم بِهِۦ تُكَذِّبُونَ","on [leur] dira alors: «Voilà ce que vous traitiez de mensonge!»","Thumma yuqalu hatha allathee kuntum bihi tukaththiboona"],["كَلَّآ إِنَّ كِتَٰبَ ٱلۡأَبۡرَارِ لَفِي عِلِّيِّينَ","Qu'ils prennent garde! Le livre des bons sera dans l'Illiyûn","Kalla inna kitaba alabrari lafee AAilliyyeena"],["وَمَآ أَدۡرَىٰكَ مَا عِلِّيُّونَ","et qui te dira ce qu'est l'Illiyûn","Wama adraka ma AAilliyyoona"],["كِتَٰبٞ مَّرۡقُومٞ","un livre cacheté","Kitabun marqoomun"],["يَشۡهَدُهُ ٱلۡمُقَرَّبُونَ","Les rapprochés [d'Allah: les Anges] en témoignent","Yashhaduhu almuqarraboona"],["إِنَّ ٱلۡأَبۡرَارَ لَفِي نَعِيمٍ","Les bons seront dans [un Jardin] de délice","Inna alabrara lafee naAAeemin"],["عَلَى ٱلۡأَرَآئِكِ يَنظُرُونَ","sur les divans, ils regardent","AAala alaraiki yanthuroona"],["تَعۡرِفُ فِي وُجُوهِهِمۡ نَضۡرَةَ ٱلنَّعِيمِ","Tu reconnaîtras sur leurs visages, l'éclat de la félicité","TaAArifu fee wujoohihim nadrata alnnaAAeemi"],["يُسۡقَوۡنَ مِن رَّحِيقٖ مَّخۡتُومٍ","On leur sert à boire un nectar pur, cacheté","Yusqawna min raheeqin makhtoomin"],["خِتَٰمُهُۥ مِسۡكٞۚ وَفِي ذَٰلِكَ فَلۡيَتَنَافَسِ ٱلۡمُتَنَٰفِسُونَ","laissant un arrière-goût de musc. Que ceux qui la convoitent entrent en compétition [pour l'acquérir]","Khitamuhu miskun wafee thalika falyatanafasi almutanafisoona"],["وَمِزَاجُهُۥ مِن تَسۡنِيمٍ","Il est mélangé à la boisson de Tasnîm","Wamizajuhu min tasneemin"],["عَيۡنٗا يَشۡرَبُ بِهَا ٱلۡمُقَرَّبُونَ","source dont les rapprochés boivent","AAaynan yashrabu biha almuqarraboona"],["إِنَّ ٱلَّذِينَ أَجۡرَمُواْ كَانُواْ مِنَ ٱلَّذِينَ ءَامَنُواْ يَضۡحَكُونَ","Les criminels riaient de ceux qui croyaient","Inna allatheena ajramoo kanoo mina allatheena amanoo yadhakoona"],["وَإِذَا مَرُّواْ بِهِمۡ يَتَغَامَزُونَ","et, passant près d'eux, ils se faisaient des œillades","Waitha marroo bihim yataghamazoona"],["وَإِذَا ٱنقَلَبُوٓاْ إِلَىٰٓ أَهۡلِهِمُ ٱنقَلَبُواْ فَكِهِينَ","et, retournant dans leurs familles, ils retournaient en plaisantant","Waitha inqalaboo ila ahlihimu inqalaboo fakiheena"],["وَإِذَا رَأَوۡهُمۡ قَالُوٓاْ إِنَّ هَـٰٓؤُلَآءِ لَضَآلُّونَ","et les voyant, ils disaient: «Ce sont vraiment ceux-là les égarés»","Waitha raawhum qaloo inna haolai ladalloona"],["وَمَآ أُرۡسِلُواْ عَلَيۡهِمۡ حَٰفِظِينَ","Or, ils n'ont pas été envoyés pour être leurs gardiens","Wama orsiloo AAalayhim hafitheena"],["فَٱلۡيَوۡمَ ٱلَّذِينَ ءَامَنُواْ مِنَ ٱلۡكُفَّارِ يَضۡحَكُونَ","Aujourd'hui, donc, ce sont ceux qui ont cru qui rient des infidèles","Faalyawma allatheena amanoo mina alkuffari yadhakoona"],["عَلَى ٱلۡأَرَآئِكِ يَنظُرُونَ","sur les divans, ils regardent","AAala alaraiki yanthuroona"],["هَلۡ ثُوِّبَ ٱلۡكُفَّارُ مَا كَانُواْ يَفۡعَلُونَ","Est-ce que les infidèles ont eu la récompense de ce qu'ils faisaient","Hal thuwwiba alkuffaru ma kanoo yafAAaloona"]]},{"n":84,"ar":"الإنشقاق","tr":"Al-Inshiqaq","fr":"La déchirure","t":"meccan","v":[["إِذَا ٱلسَّمَآءُ ٱنشَقَّتۡ","Quand le ciel se déchirera","Itha alssamao inshaqqat"],["وَأَذِنَتۡ لِرَبِّهَا وَحُقَّتۡ","et obéira à son Seigneur - et fera ce qu'il doit faire","Waathinat lirabbiha wahuqqat"],["وَإِذَا ٱلۡأَرۡضُ مُدَّتۡ","et que la terre sera nivelée","Waitha alardu muddat"],["وَأَلۡقَتۡ مَا فِيهَا وَتَخَلَّتۡ","et qu'elle rejettera ce qui est en son sein (les morts) et se videra","Waalqat ma feeha watakhallat"],["وَأَذِنَتۡ لِرَبِّهَا وَحُقَّتۡ","et qu'elle obéira à son Seigneur - et fera ce qu'elle doit faire","Waathinat lirabbiha wahuqqat"],["يَـٰٓأَيُّهَا ٱلۡإِنسَٰنُ إِنَّكَ كَادِحٌ إِلَىٰ رَبِّكَ كَدۡحٗا فَمُلَٰقِيهِ","O homme! Toi qui t'efforces vers ton Seigneur sans relâche, tu Le rencontreras alors","Ya ayyuha alinsanu innaka kadihun ila rabbika kadhan famulaqeehi"],["فَأَمَّا مَنۡ أُوتِيَ كِتَٰبَهُۥ بِيَمِينِهِۦ","Celui qui recevra son livre en sa main droite","Faama man ootiya kitabahu biyameenihi"],["فَسَوۡفَ يُحَاسَبُ حِسَابٗا يَسِيرٗا","sera soumis à un jugement facile","Fasawfa yuhasabu hisaban yaseeran"],["وَيَنقَلِبُ إِلَىٰٓ أَهۡلِهِۦ مَسۡرُورٗا","et retournera réjoui auprès de sa famille","Wayanqalibu ila ahlihi masrooran"],["وَأَمَّا مَنۡ أُوتِيَ كِتَٰبَهُۥ وَرَآءَ ظَهۡرِهِۦ","Quant à celui qui recevra son livre derrière son dos","Waamma man ootiya kitabahu waraa thahrihi"],["فَسَوۡفَ يَدۡعُواْ ثُبُورٗا","il invoquera la destruction sur lui-même","Fasawfa yadAAoo thubooran"],["وَيَصۡلَىٰ سَعِيرًا","et il brûlera dans un feu ardent","Wayasla saAAeeran"],["إِنَّهُۥ كَانَ فِيٓ أَهۡلِهِۦ مَسۡرُورًا","Car il était tout joyeux parmi les siens","Innahu kana fee ahlihi masrooran"],["إِنَّهُۥ ظَنَّ أَن لَّن يَحُورَ","et il pensait que jamais il ne ressusciterait","Innahu thanna an lan yahoora"],["بَلَىٰٓۚ إِنَّ رَبَّهُۥ كَانَ بِهِۦ بَصِيرٗا","Mais si! Certes, son Seigneur l'observait parfaitement","Bala inna rabbahu kana bihi baseeran"],["فَلَآ أُقۡسِمُ بِٱلشَّفَقِ","Non!... Je jure par le crépuscule","Fala oqsimu bialshshafaqi"],["وَٱلَّيۡلِ وَمَا وَسَقَ","et par la nuit et ce qu'elle enveloppe","Waallayli wama wasaqa"],["وَٱلۡقَمَرِ إِذَا ٱتَّسَقَ","et par la lune quand elle devient pleine lune","Waalqamari itha ittasaqa"],["لَتَرۡكَبُنَّ طَبَقًا عَن طَبَقٖ","Vous passerez, certes, par des états successifs","Latarkabunna tabaqan AAan tabaqin"],["فَمَا لَهُمۡ لَا يُؤۡمِنُونَ","Qu'ont-ils à ne pas croire","Fama lahum la yuminoona"],["وَإِذَا قُرِئَ عَلَيۡهِمُ ٱلۡقُرۡءَانُ لَا يَسۡجُدُونَۤ۩","et à ne pas se prosterner quand le Coran leur est lu","Waitha quria AAalayhimu alquranu la yasjudoona"],["بَلِ ٱلَّذِينَ كَفَرُواْ يُكَذِّبُونَ","Mais ceux qui ne croient pas, le traitent plutôt de mensonge","Bali allatheena kafaroo yukaththiboona"],["وَٱللَّهُ أَعۡلَمُ بِمَا يُوعُونَ","Or, Allah sait bien ce qu'ils dissimulent","WaAllahu aAAlamu bima yooAAoona"],["فَبَشِّرۡهُم بِعَذَابٍ أَلِيمٍ","Annonce-leur donc un châtiment douloureux","Fabashshirhum biAAathabin aleemin"],["إِلَّا ٱلَّذِينَ ءَامَنُواْ وَعَمِلُواْ ٱلصَّـٰلِحَٰتِ لَهُمۡ أَجۡرٌ غَيۡرُ مَمۡنُونِۭ","Sauf ceux qui croient et accomplissent les bonnes œuvres: à eux une récompense jamais interrompue","Illa allatheena amanoo waAAamiloo alssalihati lahum ajrun ghayru mamnoonin"]]},{"n":85,"ar":"البروج","tr":"Al-Buruj","fr":"Les constellations","t":"meccan","v":[["وَٱلسَّمَآءِ ذَاتِ ٱلۡبُرُوجِ","Par le ciel aux constellations","Waalssamai thati alburooji"],["وَٱلۡيَوۡمِ ٱلۡمَوۡعُودِ","et par le jour promis","Waalyawmi almawAAoodi"],["وَشَاهِدٖ وَمَشۡهُودٖ","et par le témoin et ce dont on témoigne","Washahidin wamashhoodin"],["قُتِلَ أَصۡحَٰبُ ٱلۡأُخۡدُودِ","Périssent les gens de l'Uhdûd","Qutila ashabu alukhdoodi"],["ٱلنَّارِ ذَاتِ ٱلۡوَقُودِ","par le feu plein de combustible","Alnnari thati alwaqoodi"],["إِذۡ هُمۡ عَلَيۡهَا قُعُودٞ","cependant qu'ils étaient assis tout autour","Ith hum AAalayha quAAoodun"],["وَهُمۡ عَلَىٰ مَا يَفۡعَلُونَ بِٱلۡمُؤۡمِنِينَ شُهُودٞ","ils étaient ainsi témoins de ce qu'ils faisaient des croyants","Wahum AAala ma yafAAaloona bialmumineena shuhoodun"],["وَمَا نَقَمُواْ مِنۡهُمۡ إِلَّآ أَن يُؤۡمِنُواْ بِٱللَّهِ ٱلۡعَزِيزِ ٱلۡحَمِيدِ","à qui ils ne leur reprochaient que d'avoir cru en Allah, le Puissant, le Digne de louange","Wama naqamoo minhum illa an yuminoo biAllahi alAAazeezi alhameedi"],["ٱلَّذِي لَهُۥ مُلۡكُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۚ وَٱللَّهُ عَلَىٰ كُلِّ شَيۡءٖ شَهِيدٌ","Auquel appartient la royauté des cieux et de la terre. Allah est témoin de toute chose","Allathee lahu mulku alssamawati waalardi waAllahu AAala kulli shayin shaheedun"],["إِنَّ ٱلَّذِينَ فَتَنُواْ ٱلۡمُؤۡمِنِينَ وَٱلۡمُؤۡمِنَٰتِ ثُمَّ لَمۡ يَتُوبُواْ فَلَهُمۡ عَذَابُ جَهَنَّمَ وَلَهُمۡ عَذَابُ ٱلۡحَرِيقِ","Ceux qui font subir des épreuves aux croyants et aux croyantes, puis ne se repentent pas, auront le châtiment de l'Enfer et le supplice du feu","Inna allatheena fatanoo almumineena waalmuminati thumma lam yatooboo falahum AAathabu jahannama walahum AAathabu alhareeqi"],["إِنَّ ٱلَّذِينَ ءَامَنُواْ وَعَمِلُواْ ٱلصَّـٰلِحَٰتِ لَهُمۡ جَنَّـٰتٞ تَجۡرِي مِن تَحۡتِهَا ٱلۡأَنۡهَٰرُۚ ذَٰلِكَ ٱلۡفَوۡزُ ٱلۡكَبِيرُ","Ceux qui croient et accomplissent les bonnes œuvres auront des Jardins sous lesquels coulent les ruisseaux. Cela est le grand succès","Inna allatheena amanoo waAAamiloo alssalihati lahum jannatun tajree min tahtiha alanharu thalika alfawzu alkabeeru"],["إِنَّ بَطۡشَ رَبِّكَ لَشَدِيدٌ","La riposte de ton Seigneur est redoutable","Inna batsha rabbika lashadeedun"],["إِنَّهُۥ هُوَ يُبۡدِئُ وَيُعِيدُ","C'est Lui, certes, qui commence (la création) et la refait","Innahu huwa yubdio wayuAAeedu"],["وَهُوَ ٱلۡغَفُورُ ٱلۡوَدُودُ","Et c'est Lui le Pardonneur, le Tout-Affectueux","Wahuwa alghafooru alwadoodu"],["ذُو ٱلۡعَرۡشِ ٱلۡمَجِيدُ","Le Maître du Trône, le Tout-Glorieux","Thoo alAAarshi almajeedi"],["فَعَّالٞ لِّمَا يُرِيدُ","Il réalise parfaitement tout ce qu'Il veut","FaAAAAalun lima yureedu"],["هَلۡ أَتَىٰكَ حَدِيثُ ٱلۡجُنُودِ","T'est-il parvenu le récit des armées","Hal ataka hadeethu aljunoodi"],["فِرۡعَوۡنَ وَثَمُودَ","de Pharaon, et de Thamûd","FirAAawna wathamooda"],["بَلِ ٱلَّذِينَ كَفَرُواْ فِي تَكۡذِيبٖ","Mais ceux qui ne croient pas persistent à démentir","Bali allatheena kafaroo fee taktheebin"],["وَٱللَّهُ مِن وَرَآئِهِم مُّحِيطُۢ","alors qu'Allah, derrière eux, les cerne de toutes parts","WaAllahu min waraihim muheetun"],["بَلۡ هُوَ قُرۡءَانٞ مَّجِيدٞ","Mais c'est plutôt un Coran glorifié","Bal huwa quranun majeedun"],["فِي لَوۡحٖ مَّحۡفُوظِۭ","préservé sur une Tablette (auprès d'Allah)","Fee lawhin mahfoothin"]]},{"n":86,"ar":"الطارق","tr":"At-Tariq","fr":"L'astre nocturne","t":"meccan","v":[["وَٱلسَّمَآءِ وَٱلطَّارِقِ","Par le ciel et par l'astre nocturne","Waalssamai waalttariqi"],["وَمَآ أَدۡرَىٰكَ مَا ٱلطَّارِقُ","Et qui te dira ce qu'est l'astre nocturne","Wama adraka ma alttariqu"],["ٱلنَّجۡمُ ٱلثَّاقِبُ","C'est l'étoile vivement brillante","Alnnajmu alththaqibu"],["إِن كُلُّ نَفۡسٖ لَّمَّا عَلَيۡهَا حَافِظٞ","Il n'est pas d'âme qui n'ait sur elle un gardien","In kullu nafsin lamma AAalayha hafithun"],["فَلۡيَنظُرِ ٱلۡإِنسَٰنُ مِمَّ خُلِقَ","Que l'homme considère donc de quoi il a été créé","Falyanthuri alinsanu mimma khuliqa"],["خُلِقَ مِن مَّآءٖ دَافِقٖ","Il a été créé d'une giclée d'eau","Khuliqa min main dafiqin"],["يَخۡرُجُ مِنۢ بَيۡنِ ٱلصُّلۡبِ وَٱلتَّرَآئِبِ","sortie d'entre les lombes et les côtes","Yakhruju min bayni alssulbi waalttaraibi"],["إِنَّهُۥ عَلَىٰ رَجۡعِهِۦ لَقَادِرٞ","Allah est certes capable de le ressusciter","Innahu AAala rajAAihi laqadirun"],["يَوۡمَ تُبۡلَى ٱلسَّرَآئِرُ","Le jour où les cœurs dévoileront leurs secrets","Yawma tubla alssarairu"],["فَمَا لَهُۥ مِن قُوَّةٖ وَلَا نَاصِرٖ","Il n'aura alors ni force ni secoureur","Fama lahu min quwwatin wala nasirin"],["وَٱلسَّمَآءِ ذَاتِ ٱلرَّجۡعِ","Par le ciel qui fait revenir la pluie","Waalssamai thati alrrajAAi"],["وَٱلۡأَرۡضِ ذَاتِ ٱلصَّدۡعِ","et par la terre qui se fend","Waalardi thati alssadAAi"],["إِنَّهُۥ لَقَوۡلٞ فَصۡلٞ","Ceci [le Coran] est certes, une parole décisive [qui tranche entre le vrai et le faux]","Innahu laqawlun faslun"],["وَمَا هُوَ بِٱلۡهَزۡلِ","et non point une plaisanterie frivole","Wama huwa bialhazli"],["إِنَّهُمۡ يَكِيدُونَ كَيۡدٗا","Ils se servent d'une ruse","Innahum yakeedoona kaydan"],["وَأَكِيدُ كَيۡدٗا","et Moi aussi Je me sers de Mon plan","Waakeedu kaydan"],["فَمَهِّلِ ٱلۡكَٰفِرِينَ أَمۡهِلۡهُمۡ رُوَيۡدَۢا","Accorde (ô Prophète) donc un délai aux infidèles: accorde-leur un court délai","Famahhili alkafireena amhilhum ruwaydan"]]},{"n":87,"ar":"الأعلى","tr":"Al-A'la","fr":"Le Très-Haut","t":"meccan","v":[["سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى","Glorifie le nom de ton Seigneur, le Très Haut","Sabbihi isma rabbika alaAAla"],["ٱلَّذِي خَلَقَ فَسَوَّىٰ","Celui Qui a créé et agencé harmonieusement","Allathee khalaqa fasawwa"],["وَٱلَّذِي قَدَّرَ فَهَدَىٰ","qui a décrété et guidé","Waallathee qaddara fahada"],["وَٱلَّذِيٓ أَخۡرَجَ ٱلۡمَرۡعَىٰ","et qui a fait pousser le pâturage","Waallathee akhraja almarAAa"],["فَجَعَلَهُۥ غُثَآءً أَحۡوَىٰ","et en a fait ensuite un foin sombre","FajaAAalahu ghuthaan ahwa"],["سَنُقۡرِئُكَ فَلَا تَنسَىٰٓ","Nous te ferons réciter (le Coran), de sorte que tu n'oublieras","Sanuqrioka fala tansa"],["إِلَّا مَا شَآءَ ٱللَّهُۚ إِنَّهُۥ يَعۡلَمُ ٱلۡجَهۡرَ وَمَا يَخۡفَىٰ","que ce qu'Allah veut. Car, Il connaît ce qui paraît au grand jour ainsi que ce qui est caché","Illa ma shaa Allahu innahu yaAAlamu aljahra wama yakhfa"],["وَنُيَسِّرُكَ لِلۡيُسۡرَىٰ","Nous te mettrons sur la voie la plus facile","Wanuyassiruka lilyusra"],["فَذَكِّرۡ إِن نَّفَعَتِ ٱلذِّكۡرَىٰ","Rappelle, donc, où le Rappel doit être utile","Fathakkir in nafaAAati alththikra"],["سَيَذَّكَّرُ مَن يَخۡشَىٰ","Quiconque craint (Allah) s'[en] rappellera","Sayaththakkaru man yakhsha"],["وَيَتَجَنَّبُهَا ٱلۡأَشۡقَى","et s'en écartera le grand malheureux","Wayatajannabuha alashqa"],["ٱلَّذِي يَصۡلَى ٱلنَّارَ ٱلۡكُبۡرَىٰ","qui brûlera dans le plus grand Feu","Allathee yasla alnnara alkubra"],["ثُمَّ لَا يَمُوتُ فِيهَا وَلَا يَحۡيَىٰ","où il ne mourra ni ne vivra","Thumma la yamootu feeha wala yahya"],["قَدۡ أَفۡلَحَ مَن تَزَكَّىٰ","Réussit, certes, celui qui se purifie","Qad aflaha man tazakka"],["وَذَكَرَ ٱسۡمَ رَبِّهِۦ فَصَلَّىٰ","et se rappelle le nom de son Seigneur, puis célèbre la Salât","Wathakara isma rabbihi fasalla"],["بَلۡ تُؤۡثِرُونَ ٱلۡحَيَوٰةَ ٱلدُّنۡيَا","Mais, vous préférez plutôt la vie présente","Bal tuthiroona alhayata alddunya"],["وَٱلۡأٓخِرَةُ خَيۡرٞ وَأَبۡقَىٰٓ","alors que l'au-delà est meilleur et plus durable","Waalakhiratu khayrun waabqa"],["إِنَّ هَٰذَا لَفِي ٱلصُّحُفِ ٱلۡأُولَىٰ","Ceci se trouve, certes, dans les Feuilles anciennes","Inna hatha lafee alssuhufi aloola"],["صُحُفِ إِبۡرَٰهِيمَ وَمُوسَىٰ","les Feuilles d'Abraham et de Moïse","Suhufi ibraheema wamoosa"]]},{"n":88,"ar":"الغاشية","tr":"Al-Ghashiyah","fr":"L'enveloppante","t":"meccan","v":[["هَلۡ أَتَىٰكَ حَدِيثُ ٱلۡغَٰشِيَةِ","T'est-il parvenu le récit de l'enveloppante","Hal ataka hadeethu alghashiyati"],["وُجُوهٞ يَوۡمَئِذٍ خَٰشِعَةٌ","Ce jour-là, il y aura des visages humiliés","Wujoohun yawmaithin khashiAAatun"],["عَامِلَةٞ نَّاصِبَةٞ","préoccupés, harassés","AAamilatun nasibatun"],["تَصۡلَىٰ نَارًا حَامِيَةٗ","Ils brûleront dans un Feu ardent","Tasla naran hamiyatan"],["تُسۡقَىٰ مِنۡ عَيۡنٍ ءَانِيَةٖ","et seront abreuvés d'une source bouillante","Tusqa min AAaynin aniyatin"],["لَّيۡسَ لَهُمۡ طَعَامٌ إِلَّا مِن ضَرِيعٖ","Il n'y aura pour eux d'autre nourriture que des plantes épineuses [darî]","Laysa lahum taAAamun illa min dareeAAin"],["لَّا يُسۡمِنُ وَلَا يُغۡنِي مِن جُوعٖ","qui n'engraisse, ni n'apaise la faim","La yusminu wala yughnee min jooAAin"],["وُجُوهٞ يَوۡمَئِذٖ نَّاعِمَةٞ","Ce jour-là, il y aura des visages épanouis","Wujoohun yawmaithin naAAimatun"],["لِّسَعۡيِهَا رَاضِيَةٞ","contents de leurs efforts","LisaAAyiha radiyatun"],["فِي جَنَّةٍ عَالِيَةٖ","dans un haut Jardin","Fee jannatin AAaliyatin"],["لَّا تَسۡمَعُ فِيهَا لَٰغِيَةٗ","où ils n'entendent aucune futilité","La tasmaAAu feeha laghiyatan"],["فِيهَا عَيۡنٞ جَارِيَةٞ","Là, il y aura une source coulante","Feeha AAaynun jariyatun"],["فِيهَا سُرُرٞ مَّرۡفُوعَةٞ","Là, des divans élevés","Feeha sururun marfooAAatun"],["وَأَكۡوَابٞ مَّوۡضُوعَةٞ","et des coupes posées","Waakwabun mawdooAAatun"],["وَنَمَارِقُ مَصۡفُوفَةٞ","et des coussins rangés","Wanamariqu masfoofatun"],["وَزَرَابِيُّ مَبۡثُوثَةٌ","et des tapis étalés","Wazarabiyyu mabthoothatun"],["أَفَلَا يَنظُرُونَ إِلَى ٱلۡإِبِلِ كَيۡفَ خُلِقَتۡ","Ne considèrent-ils donc pas les chameaux, comment ils ont été créés","Afala yanthuroona ila alibili kayfa khuliqat"],["وَإِلَى ٱلسَّمَآءِ كَيۡفَ رُفِعَتۡ","et le ciel comment il est élevé","Waila alssamai kayfa rufiAAat"],["وَإِلَى ٱلۡجِبَالِ كَيۡفَ نُصِبَتۡ","et les montagnes comment elles sont dressées","Waila aljibali kayfa nusibat"],["وَإِلَى ٱلۡأَرۡضِ كَيۡفَ سُطِحَتۡ","et la terre comment elle est nivelée","Waila alardi kayfa sutihat"],["فَذَكِّرۡ إِنَّمَآ أَنتَ مُذَكِّرٞ","Eh bien, rappelle! Tu n'es qu'un rappeleur","Fathakkir innama anta muthakkirun"],["لَّسۡتَ عَلَيۡهِم بِمُصَيۡطِرٍ","et tu n'es pas un dominateur sur eux","Lasta AAalayhim bimusaytirin"],["إِلَّا مَن تَوَلَّىٰ وَكَفَرَ","Sauf celui qui tourne le dos et ne croit pas","Illa man tawalla wakafara"],["فَيُعَذِّبُهُ ٱللَّهُ ٱلۡعَذَابَ ٱلۡأَكۡبَرَ","alors Allah le châtiera du plus grand châtiment","FayuAAaththibuhu Allahu alAAathaba alakbara"],["إِنَّ إِلَيۡنَآ إِيَابَهُمۡ","Vers Nous est leur retour","Inna ilayna iyabahum"],["ثُمَّ إِنَّ عَلَيۡنَا حِسَابَهُم","Ensuite, c'est à Nous de leur demander compte","Thumma inna AAalayna hisabahum"]]},{"n":89,"ar":"الفجر","tr":"Al-Fajr","fr":"L'aube","t":"meccan","v":[["وَٱلۡفَجۡرِ","Par l'Aube","Waalfajri"],["وَلَيَالٍ عَشۡرٖ","Et par les dix nuits","Walayalin AAashrin"],["وَٱلشَّفۡعِ وَٱلۡوَتۡرِ","Par le pair et l'impair","WaalshshafAAi waalwatri"],["وَٱلَّيۡلِ إِذَا يَسۡرِ","Et par la nuit quand elle s'écoule","Waallayli itha yasri"],["هَلۡ فِي ذَٰلِكَ قَسَمٞ لِّذِي حِجۡرٍ","N'est-ce pas là un serment, pour un doué d'intelligence","Hal fee thalika qasamun lithee hijrin"],["أَلَمۡ تَرَ كَيۡفَ فَعَلَ رَبُّكَ بِعَادٍ","N'as-tu pas vu comment ton Seigneur a agi avec les 'Aad","Alam tara kayfa faAAala rabbuka biAAadin"],["إِرَمَ ذَاتِ ٱلۡعِمَادِ","[avec] Iram, [la cité] à la colonne remarquable","Irama thati alAAimadi"],["ٱلَّتِي لَمۡ يُخۡلَقۡ مِثۡلُهَا فِي ٱلۡبِلَٰدِ","dont jamais pareille ne fut construite parmi les villes","Allatee lam yukhlaq mithluha fee albiladi"],["وَثَمُودَ ٱلَّذِينَ جَابُواْ ٱلصَّخۡرَ بِٱلۡوَادِ","et avec les Thamûd qui taillaient le rocher dans la vallée","Wathamooda allatheena jaboo alssakhra bialwadi"],["وَفِرۡعَوۡنَ ذِي ٱلۡأَوۡتَادِ","ainsi qu'avec Pharaon, l'homme aux épieux","WafirAAawna thee alawtadi"],["ٱلَّذِينَ طَغَوۡاْ فِي ٱلۡبِلَٰدِ","Tous, étaient des gens qui transgressaient dans [leurs] pays","Allatheena taghaw fee albiladi"],["فَأَكۡثَرُواْ فِيهَا ٱلۡفَسَادَ","et y avaient commis beaucoup de désordre","Faaktharoo feeha alfasada"],["فَصَبَّ عَلَيۡهِمۡ رَبُّكَ سَوۡطَ عَذَابٍ","Donc, ton Seigneur déversa sur eux un fouet du châtiment","Fasabba AAalayhim rabbuka sawta AAathabin"],["إِنَّ رَبَّكَ لَبِٱلۡمِرۡصَادِ","Car ton Seigneur demeure aux aguets","Inna rabbaka labialmirsadi"],["فَأَمَّا ٱلۡإِنسَٰنُ إِذَا مَا ٱبۡتَلَىٰهُ رَبُّهُۥ فَأَكۡرَمَهُۥ وَنَعَّمَهُۥ فَيَقُولُ رَبِّيٓ أَكۡرَمَنِ","Quant à l'homme, lorsque son Seigneur l'éprouve en l'honorant et en le comblant de bienfaits, il dit: «Mon Seigneur m'a honoré»","Faamma alinsanu itha ma ibtalahu rabbuhu faakramahu wanaAAAAamahu fayaqoolu rabbee akramani"],["وَأَمَّآ إِذَا مَا ٱبۡتَلَىٰهُ فَقَدَرَ عَلَيۡهِ رِزۡقَهُۥ فَيَقُولُ رَبِّيٓ أَهَٰنَنِ","Mais par contre, quand Il l'éprouve en lui restreignant sa subsistance, il dit: «Mon Seigneur m'a avili»","Waamma itha ma ibtalahu faqadara AAalayhi rizqahu fayaqoolu rabbee ahanani"],["كَلَّاۖ بَل لَّا تُكۡرِمُونَ ٱلۡيَتِيمَ","Mais non! C'est vous plutôt, qui n'êtes pas généreux envers les orphelins","Kalla bal la tukrimoona alyateema"],["وَلَا تَحَـٰٓضُّونَ عَلَىٰ طَعَامِ ٱلۡمِسۡكِينِ","qui ne vous incitez pas mutuellement à nourrir le pauvre","Wala tahaddoona AAala taAAami almiskeeni"],["وَتَأۡكُلُونَ ٱلتُّرَاثَ أَكۡلٗا لَّمّٗا","qui dévorez l'héritage avec une avidité vorace","Watakuloona altturatha aklan lamman"],["وَتُحِبُّونَ ٱلۡمَالَ حُبّٗا جَمّٗا","et aimez les richesses d'un amour sans bornes","Watuhibboona almala hubban jamman"],["كَلَّآۖ إِذَا دُكَّتِ ٱلۡأَرۡضُ دَكّٗا دَكّٗا","Prenez garde! Quand la terre sera complètement pulvérisée","Kalla itha dukkati alardu dakkan dakkan"],["وَجَآءَ رَبُّكَ وَٱلۡمَلَكُ صَفّٗا صَفّٗا","et que ton Seigneur viendra ainsi que les Anges, rang par rang","Wajaa rabbuka waalmalaku saffan saffan"],["وَجِاْيٓءَ يَوۡمَئِذِۭ بِجَهَنَّمَۚ يَوۡمَئِذٖ يَتَذَكَّرُ ٱلۡإِنسَٰنُ وَأَنَّىٰ لَهُ ٱلذِّكۡرَىٰ","et que ce jour-là, on amènera l'Enfer; ce jour-là, l'homme se rappellera. Mais à quoi lui servira de se souvenir","Wajeea yawmaithin bijahannama yawmaithin yatathakkaru alinsanu waanna lahu alththikra"],["يَقُولُ يَٰلَيۡتَنِي قَدَّمۡتُ لِحَيَاتِي","Il dira: «Hélas! Que n'ai-je fait du bien pour ma vie future","Yaqoolu ya laytanee qaddamtu lihayatee"],["فَيَوۡمَئِذٖ لَّا يُعَذِّبُ عَذَابَهُۥٓ أَحَدٞ","Ce jour-là donc, nul ne saura châtier comme Lui châtie","Fayawmaithin la yuAAaththibu AAathabahu ahadun"],["وَلَا يُوثِقُ وَثَاقَهُۥٓ أَحَدٞ","et nul ne saura garrotter comme Lui garrotte","Wala yoothiqu wathaqahu ahadun"],["يَـٰٓأَيَّتُهَا ٱلنَّفۡسُ ٱلۡمُطۡمَئِنَّةُ","«O toi, âme apaisée","Ya ayyatuha alnnafsu almutmainnatu"],["ٱرۡجِعِيٓ إِلَىٰ رَبِّكِ رَاضِيَةٗ مَّرۡضِيَّةٗ","retourne vers ton Seigneur, satisfaite et agréée","IrjiAAee ila rabbiki radiyatan mardiyyatan"],["فَٱدۡخُلِي فِي عِبَٰدِي","entre donc parmi Mes serviteurs","Faodkhulee fee AAibadee"],["وَٱدۡخُلِي جَنَّتِي","et entre dans Mon Paradis»","Waodkhulee jannatee"]]},{"n":90,"ar":"البلد","tr":"Al-Balad","fr":"La cité","t":"meccan","v":[["لَآ أُقۡسِمُ بِهَٰذَا ٱلۡبَلَدِ","Non!... Je jure par cette Cité","La oqsimu bihatha albaladi"],["وَأَنتَ حِلُّۢ بِهَٰذَا ٱلۡبَلَدِ","et toi, tu es un résident dans cette cité","Waanta hillun bihatha albaladi"],["وَوَالِدٖ وَمَا وَلَدَ","Et par le père et ce qu'il engendre","Wawalidin wama walada"],["لَقَدۡ خَلَقۡنَا ٱلۡإِنسَٰنَ فِي كَبَدٍ","Nous avons, certes, créé l'homme pour une vie de lutte","Laqad khalaqna alinsana fee kabadin"],["أَيَحۡسَبُ أَن لَّن يَقۡدِرَ عَلَيۡهِ أَحَدٞ","Pense-t-il que personne ne pourra rien contre lui","Ayahsabu an lan yaqdira AAalayhi ahadun"],["يَقُولُ أَهۡلَكۡتُ مَالٗا لُّبَدًا","Il dit: «J'ai gaspillé beaucoup de biens»","Yaqoolu ahlaktu malan lubadan"],["أَيَحۡسَبُ أَن لَّمۡ يَرَهُۥٓ أَحَدٌ","Pense-t-il que nul ne l'a vu","Ayahsabu an lam yarahu ahadun"],["أَلَمۡ نَجۡعَل لَّهُۥ عَيۡنَيۡنِ","Ne lui avons Nous pas assigné deux yeux","Alam najAAal lahu AAaynayni"],["وَلِسَانٗا وَشَفَتَيۡنِ","et une langue et deux lèvres","Walisanan washafatayni"],["وَهَدَيۡنَٰهُ ٱلنَّجۡدَيۡنِ","Ne l'avons-Nous pas guidé aux deux voies","Wahadaynahu alnnajdayni"],["فَلَا ٱقۡتَحَمَ ٱلۡعَقَبَةَ","Or, il ne s'engage pas dans la voie difficile","Fala iqtahama alAAaqabata"],["وَمَآ أَدۡرَىٰكَ مَا ٱلۡعَقَبَةُ","Et qui te dira ce qu'est la voie difficile","Wama adraka ma alAAaqabatu"],["فَكُّ رَقَبَةٍ","C'est délier un joug [affranchir un esclave]","Fakku raqabatin"],["أَوۡ إِطۡعَٰمٞ فِي يَوۡمٖ ذِي مَسۡغَبَةٖ","ou nourrir, en un jour de famine","Aw itAAamun fee yawmin thee masghabatin"],["يَتِيمٗا ذَا مَقۡرَبَةٍ","un orphelin proche parent","Yateeman tha maqrabatin"],["أَوۡ مِسۡكِينٗا ذَا مَتۡرَبَةٖ","ou un pauvre dans le dénuement","Aw miskeenan tha matrabatin"],["ثُمَّ كَانَ مِنَ ٱلَّذِينَ ءَامَنُواْ وَتَوَاصَوۡاْ بِٱلصَّبۡرِ وَتَوَاصَوۡاْ بِٱلۡمَرۡحَمَةِ","Et c'est être, en outre, de ceux qui croient et s'enjoignent mutuellement l'endurance, et s'enjoignent mutuellement la miséricorde","Thumma kana mina allatheena amanoo watawasaw bialssabri watawasaw bialmarhamati"],["أُوْلَـٰٓئِكَ أَصۡحَٰبُ ٱلۡمَيۡمَنَةِ","Ceux-là sont les gens de la droite","Olaika ashabu almaymanati"],["وَٱلَّذِينَ كَفَرُواْ بِـَٔايَٰتِنَا هُمۡ أَصۡحَٰبُ ٱلۡمَشۡـَٔمَةِ","alors que ceux qui ne croient pas en Nos versets sont les gens de la gauche","Waallatheena kafaroo biayatina hum ashabu almashamati"],["عَلَيۡهِمۡ نَارٞ مُّؤۡصَدَةُۢ","Le Feu se refermera sur eux","AAalayhim narun musadatun"]]},{"n":91,"ar":"الشمس","tr":"Ash-Shams","fr":"Le soleil","t":"meccan","v":[["وَٱلشَّمۡسِ وَضُحَىٰهَا","Par le soleil et par sa clarté","Waalshshamsi waduhaha"],["وَٱلۡقَمَرِ إِذَا تَلَىٰهَا","Et par la lune quand elle le suit","Waalqamari itha talaha"],["وَٱلنَّهَارِ إِذَا جَلَّىٰهَا","Et par le jour quand il l'éclaire","Waalnnahari itha jallaha"],["وَٱلَّيۡلِ إِذَا يَغۡشَىٰهَا","Et par la nuit quand elle l'enveloppe","Waallayli itha yaghshaha"],["وَٱلسَّمَآءِ وَمَا بَنَىٰهَا","Et par le ciel et Celui qui l'a construit","Waalssamai wama banaha"],["وَٱلۡأَرۡضِ وَمَا طَحَىٰهَا","Et par la terre et Celui qui l'a étendue","Waalardi wama tahaha"],["وَنَفۡسٖ وَمَا سَوَّىٰهَا","Et par l'âme et Celui qui l'a harmonieusement façonnée","Wanafsin wama sawwaha"],["فَأَلۡهَمَهَا فُجُورَهَا وَتَقۡوَىٰهَا","et lui a alors inspiré son immoralité, de même que sa piété","Faalhamaha fujooraha wataqwaha"],["قَدۡ أَفۡلَحَ مَن زَكَّىٰهَا","A réussi, certes, celui qui la purifie","Qad aflaha man zakkaha"],["وَقَدۡ خَابَ مَن دَسَّىٰهَا","Et est perdu, certes, celui qui la corrompt","Waqad khaba man dassaha"],["كَذَّبَتۡ ثَمُودُ بِطَغۡوَىٰهَآ","Les Thamûd, par leur transgression, ont crié au mensonge","Kaththabat thamoodu bitaghwaha"],["إِذِ ٱنۢبَعَثَ أَشۡقَىٰهَا","lorsque le plus misérable d'entre eux se leva (pour tuer la chamelle)","Ithi inbaAAatha ashqaha"],["فَقَالَ لَهُمۡ رَسُولُ ٱللَّهِ نَاقَةَ ٱللَّهِ وَسُقۡيَٰهَا","Le Messager d'Allah leur avait dit: «La chamelle d'Allah! Laissez-la boire","Faqala lahum rasoolu Allahi naqata Allahi wasuqyaha"],["فَكَذَّبُوهُ فَعَقَرُوهَا فَدَمۡدَمَ عَلَيۡهِمۡ رَبُّهُم بِذَنۢبِهِمۡ فَسَوَّىٰهَا","Mais, ils le traitèrent de menteur, et la tuèrent. Leur Seigneur les détruisit donc, pour leur péché et étendit Son châtiment sur tous","Fakaththaboohu faAAaqarooha fadamdama AAalayhim rabbuhum bithanbihim fasawwaha"],["وَلَا يَخَافُ عُقۡبَٰهَا","Et Allah n'a aucune crainte des conséquences","Wala yakhafu AAuqbaha"]]},{"n":92,"ar":"الليل","tr":"Al-Layl","fr":"La nuit","t":"meccan","v":[["وَٱلَّيۡلِ إِذَا يَغۡشَىٰ","Par la nuit quand elle enveloppe tout","Waallayli itha yaghsha"],["وَٱلنَّهَارِ إِذَا تَجَلَّىٰ","Par le jour quand il éclaire","Waalnnahari itha tajalla"],["وَمَا خَلَقَ ٱلذَّكَرَ وَٱلۡأُنثَىٰٓ","Et par ce qu'Il a créé, mâle et femelle","Wama khalaqa alththakara waalontha"],["إِنَّ سَعۡيَكُمۡ لَشَتَّىٰ","Vos efforts sont divergents","Inna saAAyakum lashatta"],["فَأَمَّا مَنۡ أَعۡطَىٰ وَٱتَّقَىٰ","Celui qui donne et craint (Allah)","Faamma man aAAta waittaqa"],["وَصَدَّقَ بِٱلۡحُسۡنَىٰ","et déclare véridique la plus belle récompense","Wasaddaqa bialhusna"],["فَسَنُيَسِّرُهُۥ لِلۡيُسۡرَىٰ","Nous lui faciliterons la voie au plus grand bonheur","Fasanuyassiruhu lilyusra"],["وَأَمَّا مَنۢ بَخِلَ وَٱسۡتَغۡنَىٰ","Et quant à celui qui est avare, se dispense (de l'adoration d'Allah)","Waamma man bakhila waistaghna"],["وَكَذَّبَ بِٱلۡحُسۡنَىٰ","et traite de mensonge la plus belle récompense","Wakaththaba bialhusna"],["فَسَنُيَسِّرُهُۥ لِلۡعُسۡرَىٰ","Nous lui faciliterons la voie à la plus grande difficulté","Fasanuyassiruhu lilAAusra"],["وَمَا يُغۡنِي عَنۡهُ مَالُهُۥٓ إِذَا تَرَدَّىٰٓ","et à rien ne lui serviront ses richesses quand il sera jeté (au Feu)","Wama yughnee AAanhu maluhu itha taradda"],["إِنَّ عَلَيۡنَا لَلۡهُدَىٰ","C'est à Nous, certes, de guider","Inna AAalayna lalhuda"],["وَإِنَّ لَنَا لَلۡأٓخِرَةَ وَٱلۡأُولَىٰ","à Nous appartient, certes, la vie dernière et la vie présente","Wainna lana lalakhirata waaloola"],["فَأَنذَرۡتُكُمۡ نَارٗا تَلَظَّىٰ","Je vous ai donc avertis d'un Feu qui flambe","Faanthartukum naran talaththa"],["لَا يَصۡلَىٰهَآ إِلَّا ٱلۡأَشۡقَى","où ne brûlera que le damné","La yaslaha illa alashqa"],["ٱلَّذِي كَذَّبَ وَتَوَلَّىٰ","qui dément et tourne le dos","Allathee kaththaba watawalla"],["وَسَيُجَنَّبُهَا ٱلۡأَتۡقَى","alors qu'en sera écarté le pieux","Wasayujannabuha alatqa"],["ٱلَّذِي يُؤۡتِي مَالَهُۥ يَتَزَكَّىٰ","qui donne ses biens pour se purifier","Allathee yutee malahu yatazakka"],["وَمَا لِأَحَدٍ عِندَهُۥ مِن نِّعۡمَةٖ تُجۡزَىٰٓ","et auprès de qui personne ne profite d'un bienfait intéressé","Wama liahadin AAindahu min niAAmatin tujza"],["إِلَّا ٱبۡتِغَآءَ وَجۡهِ رَبِّهِ ٱلۡأَعۡلَىٰ","mais seulement pour la recherche de La Face de son Seigneur le Très Haut","Illa ibtighaa wajhi rabbihi alaAAla"],["وَلَسَوۡفَ يَرۡضَىٰ","Et certes, il sera bientôt satisfait","Walasawfa yarda"]]},{"n":93,"ar":"الضحى","tr":"Ad-Duhaa","fr":"Le jour montant","t":"meccan","v":[["وَٱلضُّحَىٰ","Par le Jour Montant","Waaldduha"],["وَٱلَّيۡلِ إِذَا سَجَىٰ","Et par la nuit quand elle couvre tout","Waallayli itha saja"],["مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ","Ton Seigneur ne t'a ni abandonné, ni détesté","Ma waddaAAaka rabbuka wama qala"],["وَلَلۡأٓخِرَةُ خَيۡرٞ لَّكَ مِنَ ٱلۡأُولَىٰ","La vie dernière t'est, certes, meilleure que la vie présente","Walalakhiratu khayrun laka mina aloola"],["وَلَسَوۡفَ يُعۡطِيكَ رَبُّكَ فَتَرۡضَىٰٓ","Ton Seigneur t'accordera certes [Ses faveurs], et alors tu seras satisfait","Walasawfa yuAAteeka rabbuka fatarda"],["أَلَمۡ يَجِدۡكَ يَتِيمٗا فَـَٔاوَىٰ","Ne t'a-t-Il pas trouvé orphelin? Alors Il t'a accueilli","Alam yajidka yateeman faawa"],["وَوَجَدَكَ ضَآلّٗا فَهَدَىٰ","Ne t'a-t-Il pas trouvé égaré? Alors Il t'a guidé","Wawajadaka dallan fahada"],["وَوَجَدَكَ عَآئِلٗا فَأَغۡنَىٰ","Ne t'a-t-Il pas trouvé pauvre? Alors Il t'a enrichi","Wawajadaka AAailan faaghna"],["فَأَمَّا ٱلۡيَتِيمَ فَلَا تَقۡهَرۡ","Quant à l'orphelin, donc, ne le maltraite pas","Faamma alyateema fala taqhar"],["وَأَمَّا ٱلسَّآئِلَ فَلَا تَنۡهَرۡ","Quant au demandeur, ne le repousse pas","Waamma alssaila fala tanhar"],["وَأَمَّا بِنِعۡمَةِ رَبِّكَ فَحَدِّثۡ","Et quant au bienfait de ton Seigneur, proclame-le","Waamma biniAAmati rabbika fahaddith"]]},{"n":94,"ar":"الشرح","tr":"Ash-Sharh","fr":"L'ouverture","t":"meccan","v":[["أَلَمۡ نَشۡرَحۡ لَكَ صَدۡرَكَ","N'avons-Nous pas ouvert pour toi ta poitrine","Alam nashrah laka sadraka"],["وَوَضَعۡنَا عَنكَ وِزۡرَكَ","Et ne t'avons-Nous pas déchargé du fardeau","WawadaAAna AAanka wizraka"],["ٱلَّذِيٓ أَنقَضَ ظَهۡرَكَ","qui accablait ton dos","Allathee anqada thahraka"],["وَرَفَعۡنَا لَكَ ذِكۡرَكَ","Et exalté pour toi ta renommée","WarafaAAna laka thikraka"],["فَإِنَّ مَعَ ٱلۡعُسۡرِ يُسۡرًا","A côté de la difficulté est, certes, une facilité","Fainna maAAa alAAusri yusran"],["إِنَّ مَعَ ٱلۡعُسۡرِ يُسۡرٗا","A côté de la difficulté est, certes, une facilité","Inna maAAa alAAusri yusran"],["فَإِذَا فَرَغۡتَ فَٱنصَبۡ","Quand tu te libères, donc, lève-toi","Faitha faraghta fainsab"],["وَإِلَىٰ رَبِّكَ فَٱرۡغَب","et à ton Seigneur aspire","Waila rabbika fairghab"]]},{"n":95,"ar":"التين","tr":"At-Tin","fr":"Les figues","t":"meccan","v":[["وَٱلتِّينِ وَٱلزَّيۡتُونِ","Par le figuier et l'olivier","Waaltteeni waalzzaytooni"],["وَطُورِ سِينِينَ","Et par le Mont Sînîn","Watoori seeneena"],["وَهَٰذَا ٱلۡبَلَدِ ٱلۡأَمِينِ","Et par cette Cité sûre","Wahatha albaladi alameeni"],["لَقَدۡ خَلَقۡنَا ٱلۡإِنسَٰنَ فِيٓ أَحۡسَنِ تَقۡوِيمٖ","Nous avons certes créé l'homme dans la forme la plus parfaite","Laqad khalaqna alinsana fee ahsani taqweemin"],["ثُمَّ رَدَدۡنَٰهُ أَسۡفَلَ سَٰفِلِينَ","Ensuite, Nous l'avons ramené au niveau le plus bas","Thumma radadnahu asfala safileena"],["إِلَّا ٱلَّذِينَ ءَامَنُواْ وَعَمِلُواْ ٱلصَّـٰلِحَٰتِ فَلَهُمۡ أَجۡرٌ غَيۡرُ مَمۡنُونٖ","sauf ceux qui croient et accomplissent les bonnes œuvres: ceux-là auront une récompense jamais interrompue","Illa allatheena amanoo waAAamiloo alssalihati falahum ajrun ghayru mamnoonin"],["فَمَا يُكَذِّبُكَ بَعۡدُ بِٱلدِّينِ","Après cela, qu'est-ce qui te fait traiter la rétribution de mensonge","Fama yukaththibuka baAAdu bialddeeni"],["أَلَيۡسَ ٱللَّهُ بِأَحۡكَمِ ٱلۡحَٰكِمِينَ","Allah n'est-Il pas le plus sage des Juges","Alaysa Allahu biahkami alhakimeena"]]},{"n":96,"ar":"العلق","tr":"Al-'Alaq","fr":"L'adhérence","t":"meccan","v":[["ٱقۡرَأۡ بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ","Lis, au nom de ton Seigneur qui a créé","Iqra biismi rabbika allathee khalaqa"],["خَلَقَ ٱلۡإِنسَٰنَ مِنۡ عَلَقٍ","qui a créé l'homme d'une adhérence","Khalaqa alinsana min AAalaqin"],["ٱقۡرَأۡ وَرَبُّكَ ٱلۡأَكۡرَمُ","Lis! Ton Seigneur est le Très Noble","Iqra warabbuka alakramu"],["ٱلَّذِي عَلَّمَ بِٱلۡقَلَمِ","qui a enseigné par la plume [le calame]","Allathee AAallama bialqalami"],["عَلَّمَ ٱلۡإِنسَٰنَ مَا لَمۡ يَعۡلَمۡ","a enseigné à l'homme ce qu'il ne savait pas","AAallama alinsana ma lam yaAAlam"],["كَلَّآ إِنَّ ٱلۡإِنسَٰنَ لَيَطۡغَىٰٓ","Prenez-garde! Vraiment l'homme devient rebelle","Kalla inna alinsana layatgha"],["أَن رَّءَاهُ ٱسۡتَغۡنَىٰٓ","dès qu'il estime qu'il peut se suffire à lui-même (à cause de sa richesse)","An raahu istaghna"],["إِنَّ إِلَىٰ رَبِّكَ ٱلرُّجۡعَىٰٓ","Mais, c'est vers ton Seigneur qu'est le retour","Inna ila rabbika alrrujAAa"],["أَرَءَيۡتَ ٱلَّذِي يَنۡهَىٰ","As-tu vu celui qui interdit","Araayta allathee yanha"],["عَبۡدًا إِذَا صَلَّىٰٓ","à un serviteur d'Allah [Muhammad] de célébrer la Salât","AAabdan itha salla"],["أَرَءَيۡتَ إِن كَانَ عَلَى ٱلۡهُدَىٰٓ","Vois-tu s'il est sur la bonne voie","Araayta in kana AAala alhuda"],["أَوۡ أَمَرَ بِٱلتَّقۡوَىٰٓ","ou s'il ordonne la piété","Aw amara bialttaqwa"],["أَرَءَيۡتَ إِن كَذَّبَ وَتَوَلَّىٰٓ","Vois-tu s'il dément et tourne le dos","Araayta in kaththaba watawalla"],["أَلَمۡ يَعۡلَم بِأَنَّ ٱللَّهَ يَرَىٰ","Ne sait-il pas que vraiment Allah voit","Alam yaAAlam bianna Allaha yara"],["كَلَّا لَئِن لَّمۡ يَنتَهِ لَنَسۡفَعَۢا بِٱلنَّاصِيَةِ","Mais non! S'il ne cesse pas, Nous le saisirons certes, par le toupet","Kalla lain lam yantahi lanasfaAAan bialnnasiyati"],["نَاصِيَةٖ كَٰذِبَةٍ خَاطِئَةٖ","le toupet d'un menteur, d'un pécheur","Nasiyatin kathibatin khatiatin"],["فَلۡيَدۡعُ نَادِيَهُۥ","Qu'il appelle donc son assemblée","FalyadAAu nadiyahu"],["سَنَدۡعُ ٱلزَّبَانِيَةَ","Nous appellerons les gardiens [de l'Enfer]","SanadAAu alzzabaniyata"],["كَلَّا لَا تُطِعۡهُ وَٱسۡجُدۡۤ وَٱقۡتَرِب۩","Non! Ne lui obéis pas; mais prosterne-toi et rapproche-toi","Kalla la tutiAAhu waosjud waiqtarib"]]},{"n":97,"ar":"القدر","tr":"Al-Qadr","fr":"La destinée","t":"meccan","v":[["إِنَّآ أَنزَلۡنَٰهُ فِي لَيۡلَةِ ٱلۡقَدۡرِ","Nous l'avons certes, fait descendre (le Coran) pendant la nuit d'Al-Qadr","Inna anzalnahu fee laylati alqadri"],["وَمَآ أَدۡرَىٰكَ مَا لَيۡلَةُ ٱلۡقَدۡرِ","Et qui te dira ce qu'est la nuit d'Al-Qadr","Wama adraka ma laylatu alqadri"],["لَيۡلَةُ ٱلۡقَدۡرِ خَيۡرٞ مِّنۡ أَلۡفِ شَهۡرٖ","La nuit d'Al-Qadr est meilleure que mille mois","Laylatu alqadri khayrun min alfi shahrin"],["تَنَزَّلُ ٱلۡمَلَـٰٓئِكَةُ وَٱلرُّوحُ فِيهَا بِإِذۡنِ رَبِّهِم مِّن كُلِّ أَمۡرٖ","Durant celle-ci descendent les Anges ainsi que l'Esprit, par permission de leur Seigneur pour tout ordre","Tanazzalu almalaikatu waalrroohu feeha biithni rabbihim min kulli amrin"],["سَلَٰمٌ هِيَ حَتَّىٰ مَطۡلَعِ ٱلۡفَجۡرِ","Elle est paix et salut jusqu'à l'apparition de l'aube","Salamun hiya hatta matlaAAi alfajri"]]},{"n":98,"ar":"البينة","tr":"Al-Bayyinah","fr":"La preuve","t":"medinan","v":[["لَمۡ يَكُنِ ٱلَّذِينَ كَفَرُواْ مِنۡ أَهۡلِ ٱلۡكِتَٰبِ وَٱلۡمُشۡرِكِينَ مُنفَكِّينَ حَتَّىٰ تَأۡتِيَهُمُ ٱلۡبَيِّنَةُ","Les infidèles parmi les gens du Livre, ainsi que les Associateurs, ne cesseront pas de mécroire jusqu'à ce que leur vienne la Preuve évidente","Lam yakuni allatheena kafaroo min ahli alkitabi waalmushrikeena munfakkeena hatta tatiyahumu albayyinatu"],["رَسُولٞ مِّنَ ٱللَّهِ يَتۡلُواْ صُحُفٗا مُّطَهَّرَةٗ","un Messager, de la part d'Allah, qui leur récite des feuilles purifiées","Rasoolun mina Allahi yatloo suhufan mutahharatan"],["فِيهَا كُتُبٞ قَيِّمَةٞ","dans lesquelles se trouvent des prescriptions d'une rectitude parfaite","Feeha kutubun qayyimatun"],["وَمَا تَفَرَّقَ ٱلَّذِينَ أُوتُواْ ٱلۡكِتَٰبَ إِلَّا مِنۢ بَعۡدِ مَا جَآءَتۡهُمُ ٱلۡبَيِّنَةُ","Et ceux à qui le Livre a été donné ne se sont divisés qu'après que la preuve leur fut venue","Wama tafarraqa allatheena ootoo alkitaba illa min baAAdi ma jaathumu albayyinatu"],["وَمَآ أُمِرُوٓاْ إِلَّا لِيَعۡبُدُواْ ٱللَّهَ مُخۡلِصِينَ لَهُ ٱلدِّينَ حُنَفَآءَ وَيُقِيمُواْ ٱلصَّلَوٰةَ وَيُؤۡتُواْ ٱلزَّكَوٰةَۚ وَذَٰلِكَ دِينُ ٱلۡقَيِّمَةِ","Il ne leur a été commandé, cependant, que d'adorer Allah, Lui vouant un culte exclusif, d'accomplir la Salât et d'acquitter la Zakât. Et voilà la religion de droiture","Wama omiroo illa liyaAAbudoo Allaha mukhliseena lahu alddeena hunafaa wayuqeemoo alssalata wayutoo alzzakata wathalika deenu alqayyimati"],["إِنَّ ٱلَّذِينَ كَفَرُواْ مِنۡ أَهۡلِ ٱلۡكِتَٰبِ وَٱلۡمُشۡرِكِينَ فِي نَارِ جَهَنَّمَ خَٰلِدِينَ فِيهَآۚ أُوْلَـٰٓئِكَ هُمۡ شَرُّ ٱلۡبَرِيَّةِ","Les infidèles parmi les gens du Livre, ainsi que les Associateurs iront au feu de l'Enfer, pour y demeurer éternellement. De toute la création, ce sont eux les pires","Inna allatheena kafaroo min ahli alkitabi waalmushrikeena fee nari jahannama khalideena feeha olaika hum sharru albariyyati"],["إِنَّ ٱلَّذِينَ ءَامَنُواْ وَعَمِلُواْ ٱلصَّـٰلِحَٰتِ أُوْلَـٰٓئِكَ هُمۡ خَيۡرُ ٱلۡبَرِيَّةِ","Quant à ceux qui croient et accomplissent les bonnes œuvres, ce sont les meilleurs de toute la création","Inna allatheena amanoo waAAamiloo alssalihati olaika hum khayru albariyyati"],["جَزَآؤُهُمۡ عِندَ رَبِّهِمۡ جَنَّـٰتُ عَدۡنٖ تَجۡرِي مِن تَحۡتِهَا ٱلۡأَنۡهَٰرُ خَٰلِدِينَ فِيهَآ أَبَدٗاۖ رَّضِيَ ٱللَّهُ عَنۡهُمۡ وَرَضُواْ عَنۡهُۚ ذَٰلِكَ لِمَنۡ خَشِيَ رَبَّهُۥ","Leur récompense auprès d'Allah sera les Jardins de séjour, sous lesquels coulent les ruisseaux, pour y demeurer éternellement. Allah les agrée et ils L'agréent. Telle sera [la récompense] de celui qui craint son Seigneur","Jazaohum AAinda rabbihim jannatu AAadnin tajree min tahtiha alanharu khalideena feeha abadan radiya Allahu AAanhum waradoo AAanhu thalika liman khashiya rabbahu"]]},{"n":99,"ar":"الزلزلة","tr":"Az-Zalzalah","fr":"Le séisme","t":"medinan","v":[["إِذَا زُلۡزِلَتِ ٱلۡأَرۡضُ زِلۡزَالَهَا","Quand la terre tremblera d'un violent tremblement","Itha zulzilati alardu zilzalaha"],["وَأَخۡرَجَتِ ٱلۡأَرۡضُ أَثۡقَالَهَا","et que la terre fera sortir ses fardeaux","Waakhrajati alardu athqalaha"],["وَقَالَ ٱلۡإِنسَٰنُ مَا لَهَا","et que l'homme dira: «Qu'a-t-elle?»","Waqala alinsanu ma laha"],["يَوۡمَئِذٖ تُحَدِّثُ أَخۡبَارَهَا","ce jour-là, elle contera son histoire","Yawmaithin tuhaddithu akhbaraha"],["بِأَنَّ رَبَّكَ أَوۡحَىٰ لَهَا","selon ce que ton Seigneur lui aura révélé [ordonné]","Bianna rabbaka awha laha"],["يَوۡمَئِذٖ يَصۡدُرُ ٱلنَّاسُ أَشۡتَاتٗا لِّيُرَوۡاْ أَعۡمَٰلَهُمۡ","Ce jour-là, les gens sortiront séparément pour que leur soient montrées leurs œuvres","Yawmaithin yasduru alnnasu ashtatan liyuraw aAAmalahum"],["فَمَن يَعۡمَلۡ مِثۡقَالَ ذَرَّةٍ خَيۡرٗا يَرَهُۥ","Quiconque fait un bien fût-ce du poids d'un atome, le verra","Faman yaAAmal mithqala tharratin khayran yarahu"],["وَمَن يَعۡمَلۡ مِثۡقَالَ ذَرَّةٖ شَرّٗا يَرَهُۥ","et quiconque fait un mal fût-ce du poids d'un atome, le verra","Waman yaAAmal mithqala tharratin sharran yarahu"]]},{"n":100,"ar":"العاديات","tr":"Al-'Adiyat","fr":"Les coursiers","t":"meccan","v":[["وَٱلۡعَٰدِيَٰتِ ضَبۡحٗا","Par les coursiers qui halètent","WaalAAadiyati dabhan"],["فَٱلۡمُورِيَٰتِ قَدۡحٗا","qui font jaillir des étincelles","Faalmooriyati qadhan"],["فَٱلۡمُغِيرَٰتِ صُبۡحٗا","qui attaquent au matin","Faalmugheerati subhan"],["فَأَثَرۡنَ بِهِۦ نَقۡعٗا","et font ainsi voler la poussière","Faatharna bihi naqAAan"],["فَوَسَطۡنَ بِهِۦ جَمۡعًا","et pénètrent au centre de la troupe ennemie","Fawasatna bihi jamAAan"],["إِنَّ ٱلۡإِنسَٰنَ لِرَبِّهِۦ لَكَنُودٞ","L'homme est, certes, ingrat envers son Seigneur","Inna alinsana lirabbihi lakanoodun"],["وَإِنَّهُۥ عَلَىٰ ذَٰلِكَ لَشَهِيدٞ","et pourtant, il est certes, témoin de cela","Wainnahu AAala thalika lashaheedun"],["وَإِنَّهُۥ لِحُبِّ ٱلۡخَيۡرِ لَشَدِيدٌ","et pour l'amour des richesses il est certes ardent","Wainnahu lihubbi alkhayri lashadeedun"],["۞أَفَلَا يَعۡلَمُ إِذَا بُعۡثِرَ مَا فِي ٱلۡقُبُورِ","Ne sait-il donc pas que lorsque ce qui est dans les tombes sera bouleversé","Afala yaAAlamu itha buAAthira ma fee alquboori"],["وَحُصِّلَ مَا فِي ٱلصُّدُورِ","et que sera dévoilé ce qui est dans les poitrines","Wahussila ma fee alssudoori"],["إِنَّ رَبَّهُم بِهِمۡ يَوۡمَئِذٖ لَّخَبِيرُۢ","ce jour-là, certes, leur Seigneur sera Parfaitement Connaisseur d'eux","Inna rabbahum bihim yawmaithin lakhabeerun"]]},{"n":101,"ar":"القارعة","tr":"Al-Qari'ah","fr":"Le fracas","t":"meccan","v":[["ٱلۡقَارِعَةُ","Le fracas","AlqariAAatu"],["مَا ٱلۡقَارِعَةُ","Qu'est-ce que le fracas","Ma alqariAAatu"],["وَمَآ أَدۡرَىٰكَ مَا ٱلۡقَارِعَةُ","Et qui te dira ce qu'est le fracas","Wama adraka ma alqariAAatu"],["يَوۡمَ يَكُونُ ٱلنَّاسُ كَٱلۡفَرَاشِ ٱلۡمَبۡثُوثِ","C'est le jour où les gens seront comme des papillons éparpillés","Yawma yakoonu alnnasu kaalfarashi almabthoothi"],["وَتَكُونُ ٱلۡجِبَالُ كَٱلۡعِهۡنِ ٱلۡمَنفُوشِ","et les montagnes comme de la laine cardée","Watakoonu aljibalu kaalAAihni almanfooshi"],["فَأَمَّا مَن ثَقُلَتۡ مَوَٰزِينُهُۥ","quant à celui dont la balance sera lourde","Faamma man thaqulat mawazeenuhu"],["فَهُوَ فِي عِيشَةٖ رَّاضِيَةٖ","il sera dans une vie agréable","Fahuwa fee AAeeshatin radiyatin"],["وَأَمَّا مَنۡ خَفَّتۡ مَوَٰزِينُهُۥ","et quant à celui dont la balance sera légère","Waamma man khaffat mawazeenuhu"],["فَأُمُّهُۥ هَاوِيَةٞ","sa mère [destination] est un abîme très profond","Faommuhu hawiyatun"],["وَمَآ أَدۡرَىٰكَ مَا هِيَهۡ","Et qui te dira ce que c'est","Wama adraka ma hiyah"],["نَارٌ حَامِيَةُۢ","C'est un Feu ardent","Narun hamiyatun"]]},{"n":102,"ar":"التكاثر","tr":"At-Takathur","fr":"La course aux richesses","t":"meccan","v":[["أَلۡهَىٰكُمُ ٱلتَّكَاثُرُ","La course aux richesses vous distrait","Alhakumu alttakathuru"],["حَتَّىٰ زُرۡتُمُ ٱلۡمَقَابِرَ","jusqu'à ce que vous visitiez les tombes","Hatta zurtumu almaqabira"],["كَلَّا سَوۡفَ تَعۡلَمُونَ","Mais non! Vous saurez bientôt","Kalla sawfa taAAlamoona"],["ثُمَّ كَلَّا سَوۡفَ تَعۡلَمُونَ","(Encore une fois)! Vous saurez bientôt","Thumma kalla sawfa taAAlamoona"],["كَلَّا لَوۡ تَعۡلَمُونَ عِلۡمَ ٱلۡيَقِينِ","Sûrement! Si vous saviez de science certaine","Kalla law taAAlamoona AAilma alyaqeeni"],["لَتَرَوُنَّ ٱلۡجَحِيمَ","Vous verrez, certes, la Fournaise","Latarawunna aljaheema"],["ثُمَّ لَتَرَوُنَّهَا عَيۡنَ ٱلۡيَقِينِ","Puis, vous la verrez certes, avec l'œil de la certitude","Thumma latarawunnaha AAayna alyaqeeni"],["ثُمَّ لَتُسۡـَٔلُنَّ يَوۡمَئِذٍ عَنِ ٱلنَّعِيمِ","Puis, assurément, vous serez interrogés, ce jour-là, sur les délices","Thumma latusalunna yawmaithin AAani alnnaAAeemi"]]},{"n":103,"ar":"العصر","tr":"Al-'Asr","fr":"Le temps","t":"meccan","v":[["وَٱلۡعَصۡرِ","Par le Temps","WaalAAasri"],["إِنَّ ٱلۡإِنسَٰنَ لَفِي خُسۡرٍ","L'homme est certes, en perdition","Inna alinsana lafee khusrin"],["إِلَّا ٱلَّذِينَ ءَامَنُواْ وَعَمِلُواْ ٱلصَّـٰلِحَٰتِ وَتَوَاصَوۡاْ بِٱلۡحَقِّ وَتَوَاصَوۡاْ بِٱلصَّبۡرِ","sauf ceux qui croient et accomplissent les bonnes œuvres, s'enjoignent mutuellement la vérité et s'enjoignent mutuellement l'endurance","Illa allatheena amanoo waAAamiloo alssalihati watawasaw bialhaqqi watawasaw bialssabri"]]},{"n":104,"ar":"الهمزة","tr":"Al-Humazah","fr":"Les calomniateurs","t":"meccan","v":[["وَيۡلٞ لِّكُلِّ هُمَزَةٖ لُّمَزَةٍ","Malheur à tout calomniateur diffamateur","Waylun likulli humazatin lumazatin"],["ٱلَّذِي جَمَعَ مَالٗا وَعَدَّدَهُۥ","qui amasse une fortune et la compte","Allathee jamaAAa malan waAAaddadahu"],["يَحۡسَبُ أَنَّ مَالَهُۥٓ أَخۡلَدَهُۥ","pensant que sa fortune l'immortalisera","Yahsabu anna malahu akhladahu"],["كَلَّاۖ لَيُنۢبَذَنَّ فِي ٱلۡحُطَمَةِ","Mais non! Il sera certes, jeté dans la Hutamah","Kalla layunbathanna fee alhutamati"],["وَمَآ أَدۡرَىٰكَ مَا ٱلۡحُطَمَةُ","Et qui te dira ce qu'est la Hutamah","Wama adraka ma alhutamatu"],["نَارُ ٱللَّهِ ٱلۡمُوقَدَةُ","Le Feu attisé d'Allah","Naru Allahi almooqadatu"],["ٱلَّتِي تَطَّلِعُ عَلَى ٱلۡأَفۡـِٔدَةِ","qui monte jusqu'aux cœurs","Allatee tattaliAAu AAala alafidati"],["إِنَّهَا عَلَيۡهِم مُّؤۡصَدَةٞ","Il se refermera sur eux","lnnaha AAalayhim musadatun"],["فِي عَمَدٖ مُّمَدَّدَةِۭ","en colonnes (de flammes) étendues","Fee AAamadin mumaddadatin"]]},{"n":105,"ar":"الفيل","tr":"Al-Fil","fr":"L'éléphant","t":"meccan","v":[["أَلَمۡ تَرَ كَيۡفَ فَعَلَ رَبُّكَ بِأَصۡحَٰبِ ٱلۡفِيلِ","N'as-tu pas vu comment ton Seigneur a agi envers les gens de l'Eléphant","Alam tara kayfa faAAala rabbuka biashabi alfeeli"],["أَلَمۡ يَجۡعَلۡ كَيۡدَهُمۡ فِي تَضۡلِيلٖ","N'a-t-Il pas rendu leur ruse complètement vaine","Alam yajAAal kaydahum fee tadleelin"],["وَأَرۡسَلَ عَلَيۡهِمۡ طَيۡرًا أَبَابِيلَ","et envoyé sur eux des oiseaux par volées","Waarsala AAalayhim tayran ababeela"],["تَرۡمِيهِم بِحِجَارَةٖ مِّن سِجِّيلٖ","qui leur lançaient des pierres d'argile","Tarmeehim bihijaratin min sijjeelin"],["فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ","Et Il les a rendus semblables à une paille mâchée","FajaAAalahum kaAAasfin makoolin"]]},{"n":106,"ar":"قريش","tr":"Quraysh","fr":"Les Quraysh","t":"meccan","v":[["لِإِيلَٰفِ قُرَيۡشٍ","A cause du pacte des Coraïch","Lieelafi qurayshin"],["إِۦلَٰفِهِمۡ رِحۡلَةَ ٱلشِّتَآءِ وَٱلصَّيۡفِ","De leur pacte [concernant] les voyages d'hiver et d'été","Eelafihim rihlata alshshitai waalssayfi"],["فَلۡيَعۡبُدُواْ رَبَّ هَٰذَا ٱلۡبَيۡتِ","Qu'ils adorent donc le Seigneur de cette Maison [la Ka'ba]","FalyaAAbudoo rabba hatha albayti"],["ٱلَّذِيٓ أَطۡعَمَهُم مِّن جُوعٖ وَءَامَنَهُم مِّنۡ خَوۡفِۭ","qui les a nourris contre la faim et rassurés de la crainte","Allathee atAAamahum min jooAAin waamanahum min khawfin"]]},{"n":107,"ar":"الماعون","tr":"Al-Ma'un","fr":"L'entraide","t":"meccan","v":[["أَرَءَيۡتَ ٱلَّذِي يُكَذِّبُ بِٱلدِّينِ","Vois-tu celui qui traite de mensonge la Rétribution","Araayta allathee yukaththibu bialddeeni"],["فَذَٰلِكَ ٱلَّذِي يَدُعُّ ٱلۡيَتِيمَ","C'est bien lui qui repousse l'orphelin","Fathalika allathee yaduAAAAu alyateema"],["وَلَا يَحُضُّ عَلَىٰ طَعَامِ ٱلۡمِسۡكِينِ","et qui n'encourage point à nourrir le pauvre","Wala yahuddu AAala taAAami almiskeeni"],["فَوَيۡلٞ لِّلۡمُصَلِّينَ","Malheur donc, à ceux qui prient","Fawaylun lilmusalleena"],["ٱلَّذِينَ هُمۡ عَن صَلَاتِهِمۡ سَاهُونَ","tout en négligeant (et retardant) leur Salât","Allatheena hum AAan salatihim sahoona"],["ٱلَّذِينَ هُمۡ يُرَآءُونَ","qui sont pleins d'ostentation","Allatheena hum yuraoona"],["وَيَمۡنَعُونَ ٱلۡمَاعُونَ","et refusent l'ustensile (à celui qui en a besoin)","WayamnaAAoona almaAAoona"]]},{"n":108,"ar":"الكوثر","tr":"Al-Kawthar","fr":"L'abondance","t":"meccan","v":[["إِنَّآ أَعۡطَيۡنَٰكَ ٱلۡكَوۡثَرَ","Nous t'avons certes, accordé l'Abondance","Inna aAAtaynaka alkawthara"],["فَصَلِّ لِرَبِّكَ وَٱنۡحَرۡ","Accomplis la Salât pour ton Seigneur et sacrifie","Fasalli lirabbika wainhar"],["إِنَّ شَانِئَكَ هُوَ ٱلۡأَبۡتَرُ","Celui qui te hait sera certes, sans postérité","Inna shaniaka huwa alabtaru"]]},{"n":109,"ar":"الكافرون","tr":"Al-Kafirun","fr":"Les mécréants","t":"meccan","v":[["قُلۡ يَـٰٓأَيُّهَا ٱلۡكَٰفِرُونَ","Dis: «O vous les infidèles","Qul ya ayyuha alkafiroona"],["لَآ أَعۡبُدُ مَا تَعۡبُدُونَ","Je n'adore pas ce que vous adorez","La aAAbudu ma taAAbudoona"],["وَلَآ أَنتُمۡ عَٰبِدُونَ مَآ أَعۡبُدُ","Et vous n'êtes pas adorateurs de ce que j'adore","Wala antum AAabidoona ma aAAbudu"],["وَلَآ أَنَا۠ عَابِدٞ مَّا عَبَدتُّمۡ","Je ne suis pas adorateur de ce que vous adorez","Wala ana AAabidun ma AAabadtum"],["وَلَآ أَنتُمۡ عَٰبِدُونَ مَآ أَعۡبُدُ","Et vous n'êtes pas adorateurs de ce que j'adore","Wala antum AAabidoona ma aAAbudu"],["لَكُمۡ دِينُكُمۡ وَلِيَ دِينِ","A vous votre religion, et à moi ma religion»","Lakum deenukum waliya deeni"]]},{"n":110,"ar":"النصر","tr":"An-Nasr","fr":"Le secours","t":"medinan","v":[["إِذَا جَآءَ نَصۡرُ ٱللَّهِ وَٱلۡفَتۡحُ","Lorsque vient le secours d'Allah ainsi que la victoire","Itha jaa nasru Allahi waalfathu"],["وَرَأَيۡتَ ٱلنَّاسَ يَدۡخُلُونَ فِي دِينِ ٱللَّهِ أَفۡوَاجٗا","et que tu vois les gens entrer en foule dans la religion d'Allah","Waraayta alnnasa yadkhuloona fee deeni Allahi afwajan"],["فَسَبِّحۡ بِحَمۡدِ رَبِّكَ وَٱسۡتَغۡفِرۡهُۚ إِنَّهُۥ كَانَ تَوَّابَۢا","alors, par la louange, célèbre la gloire de ton Seigneur et implore Son pardon. Car c'est Lui le grand Accueillant au repentir","Fasabbih bihamdi rabbika waistaghfirhu innahu kana tawwaban"]]},{"n":111,"ar":"المسد","tr":"Al-Masad","fr":"Les fibres","t":"meccan","v":[["تَبَّتۡ يَدَآ أَبِي لَهَبٖ وَتَبَّ","Que périssent les deux mains d'Abû-Lahab et que lui-même périsse","Tabbat yada abee lahabin watabba"],["مَآ أَغۡنَىٰ عَنۡهُ مَالُهُۥ وَمَا كَسَبَ","Sa fortune ne lui sert à rien, ni ce qu'il a acquis","Ma aghna AAanhu maluhu wama kasaba"],["سَيَصۡلَىٰ نَارٗا ذَاتَ لَهَبٖ","Il sera brûlé dans un Feu plein de flammes","Sayasla naran thata lahabin"],["وَٱمۡرَأَتُهُۥ حَمَّالَةَ ٱلۡحَطَبِ","de même sa femme, la porteuse de bois","Waimraatuhu hammalata alhatabi"],["فِي جِيدِهَا حَبۡلٞ مِّن مَّسَدِۭ","à son cou, une corde de fibres","Fee jeediha hablun min masadin"]]},{"n":112,"ar":"الإخلاص","tr":"Al-Ikhlas","fr":"La sincérité","t":"meccan","v":[["قُلۡ هُوَ ٱللَّهُ أَحَدٌ","Dis: «Il est Allah, Unique","Qul huwa Allahu ahadun"],["ٱللَّهُ ٱلصَّمَدُ","Allah, Le Seul à être imploré pour ce que nous désirons","Allahu alssamadu"],["لَمۡ يَلِدۡ وَلَمۡ يُولَدۡ","Il n'a jamais engendré, n'a pas été engendré non plus","Lam yalid walam yooladu"],["وَلَمۡ يَكُن لَّهُۥ كُفُوًا أَحَدُۢ","Et nul n'est égal à Lui»","Walam yakun lahu kufuwan ahadun"]]},{"n":113,"ar":"الفلق","tr":"Al-Falaq","fr":"L'aube naissante","t":"meccan","v":[["قُلۡ أَعُوذُ بِرَبِّ ٱلۡفَلَقِ","Dis: «Je cherche protection auprès du Seigneur de l'aube naissante","Qul aAAoothu birabbi alfalaqi"],["مِن شَرِّ مَا خَلَقَ","contre le mal des êtres qu'Il a créés","Min sharri ma khalaqa"],["وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ","contre le mal de l'obscurité quand elle s'approfondit","Wamin sharri ghasiqin itha waqaba"],["وَمِن شَرِّ ٱلنَّفَّـٰثَٰتِ فِي ٱلۡعُقَدِ","contre le mal de celles qui soufflent [les sorcières] sur les nœuds","Wamin sharri alnnaffathati fee alAAuqadi"],["وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ","et contre le mal de l'envieux quand il envie»","Wamin sharri hasidin itha hasada"]]},{"n":114,"ar":"الناس","tr":"An-Nas","fr":"Les humains","t":"meccan","v":[["قُلۡ أَعُوذُ بِرَبِّ ٱلنَّاسِ","Dis: «Je cherche protection auprès du Seigneur des hommes","Qul aAAoothu birabbi alnnasi"],["مَلِكِ ٱلنَّاسِ","Le Souverain des hommes","Maliki alnnasi"],["إِلَٰهِ ٱلنَّاسِ","Dieu des hommes","Ilahi alnnasi"],["مِن شَرِّ ٱلۡوَسۡوَاسِ ٱلۡخَنَّاسِ","contre le mal du mauvais conseiller, furtif","Min sharri alwaswasi alkhannasi"],["ٱلَّذِي يُوَسۡوِسُ فِي صُدُورِ ٱلنَّاسِ","qui souffle le mal dans les poitrines des hommes","Allathee yuwaswisu fee sudoori alnnasi"],["مِنَ ٱلۡجِنَّةِ وَٱلنَّاسِ","qu'il (le conseiller) soit un djinn, ou un être humain»","Mina aljinnati wa alnnasm"]]}];
+const BY = Object.fromEntries(DATA.map(s => [s.n, s]));
+const TOTAL = DATA.reduce((a, s) => a + s.v.length, 0);
+const BISM = "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ";
+
+const RECITERS = [
+  { id: "Alafasy_128kbps", name: "Mishary Alafasy", alt: "https://verses.quran.com/Alafasy/mp3/" },
+  { id: "Husary_Muallim_128kbps", name: "Al-Husary — Muʿallim (lent, pédagogique)" },
+  { id: "Husary_128kbps", name: "Al-Husary — Murattal", alt: "https://verses.quran.com/Husary/mp3/" },
+  { id: "Minshawy_Murattal_128kbps", name: "Al-Minshawi — Murattal", alt: "https://verses.quran.com/Minshawi/Murattal/mp3/" },
+  { id: "Minshawy_Teacher_128kbps", name: "Al-Minshawi — Muʿallim (avec enfants)" },
+  { id: "Abdul_Basit_Murattal_192kbps", name: "Abdul Basit — Murattal", alt: "https://verses.quran.com/AbdulBaset/Murattal/mp3/" },
+  { id: "MaherAlMuaiqly128kbps", name: "Maher Al-Muaiqly" },
+  { id: "Yasser_Ad-Dussary_128kbps", name: "Yasser Ad-Dossari" },
+  { id: "Abdurrahmaan_As-Sudais_192kbps", name: "Abderrahman As-Sudais", alt: "https://verses.quran.com/Sudais/mp3/" },
+  { id: "Saood_ash-Shuraym_128kbps", name: "Saoud Ash-Shuraym", alt: "https://verses.quran.com/Shuraym/mp3/" },
+];
+const SPEEDS = [0.75, 0.85, 1, 1.15, 1.25];
+
+/* ---------------- état & stockage ---------------- */
+const KEY = "juzamma.v1";
+const DEF = {
+  settings: { rec: "Alafasy_128kbps", speed: 1, bism: true, rNew: 3, rChain: 2, win: 0, gap: 1, rAll: 3, chunk: 5, loop: 1,
+    showFr: true, showTl: false, fs: 28, order: "desc", wake: true, test: false },
+  st: {}, rev: {}, last: null, log: {}, off: {}
+};
+const clone = o => JSON.parse(JSON.stringify(o));
+let S = load();
+function load() {
+  try {
+    const o = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (o && typeof o === "object") return Object.assign(clone(DEF), o, { settings: Object.assign(clone(DEF.settings), o.settings || {}) });
+  } catch (e) {}
+  return clone(DEF);
+}
+let saveT;
+function save() { clearTimeout(saveT); saveT = setTimeout(saveNow, 120); }
+function saveNow() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+window.addEventListener("pagehide", saveNow);
+document.addEventListener("visibilitychange", () => { if (document.hidden) saveNow(); });
+try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) {}
+
+const st = (s, a) => S.st[s + ":" + a] || 0;
+function setSt(s, a, v) { if (v) S.st[s + ":" + a] = v; else delete S.st[s + ":" + a]; save(); }
+function counts(s) { const n = BY[s].v.length; let m = 0, l = 0; for (let a = 1; a <= n; a++) { const x = st(s, a); if (x === 2) m++; else if (x === 1) l++; } return { m, l, n }; }
+function gCounts() { let m = 0, l = 0, done = 0; for (const s of DATA) { const c = counts(s.n); m += c.m; l += c.l; if (c.m === c.n) done++; } return { m, l, done }; }
+const pad = (n, k = 2) => String(n).padStart(k, "0");
+const dkey = (d = new Date()) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+function streak() {
+  let d = new Date(), n = 0;
+  if (!S.log[dkey(d)]) d.setDate(d.getDate() - 1);
+  while (S.log[dkey(d)]) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+const order = () => { const a = DATA.map(s => s.n); return S.settings.order === "desc" ? a.reverse() : a; };
+const range = (a, b) => { const r = []; for (let i = a; i <= b; i++) r.push(i); return r; };
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const curRec = () => RECITERS.find(r => r.id === S.settings.rec) || RECITERS[0];
+function nextChunk(s) {
+  const n = BY[s].v.length; let f = 1;
+  while (f <= n && st(s, f) === 2) f++;
+  if (f > n) return { from: 1, to: n };
+  return { from: f, to: Math.min(n, f + S.settings.chunk - 1) };
+}
+function daysAgo(t) { if (!t) return null; return Math.floor((Date.now() - t) / 864e5); }
+
+/* ---------------- audio ---------------- */
+const audio = new Audio();
+audio.preload = "auto";
+audio.setAttribute("playsinline", "");
+const urlsFor = (rec, s, a) => { const f = pad(s, 3) + pad(a, 3) + ".mp3"; return ["https://everyayah.com/data/" + rec.id + "/" + f].concat(rec.alt ? [rec.alt + f] : []); };
+
+const idb = (() => {
+  let dbp;
+  const open = () => dbp || (dbp = new Promise((res, rej) => {
+    const r = indexedDB.open("juzamma", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("audio");
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  const tx = async (mode, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction("audio", mode); const q = fn(t.objectStore("audio")); t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error); }); };
+  return { get: k => tx("readonly", s => s.get(k)), put: (k, v) => tx("readwrite", s => s.put(v, k)), clear: () => tx("readwrite", s => s.clear()) };
+})();
+
+const mem = new Map();      // clé -> Promise<url|null>
+const corsBad = new Set();  // hôtes sans CORS
+async function fetchAudio(rec, s, a) {
+  for (const url of urlsFor(rec, s, a)) {
+    const host = new URL(url).host;
+    if (corsBad.has(host)) continue;
+    try {
+      const r = await fetch(url, { mode: "cors" });
+      if (r.ok) { let b = await r.blob(); if (b.size > 800) { if (!b.type) b = new Blob([b], { type: "audio/mpeg" }); return b; } }
+    } catch (e) { if (navigator.onLine !== false) corsBad.add(host); }
+  }
+  return null;
+}
+function getURL(rec, s, a) {
+  const k = rec.id + "/" + s + ":" + a;
+  if (!mem.has(k)) {
+    mem.set(k, (async () => {
+      let b = null;
+      try { b = await idb.get(k); } catch (e) {}
+      if (!b) b = await fetchAudio(rec, s, a);
+      return b ? URL.createObjectURL(b) : null;
+    })().then(u => { if (!u) mem.delete(k); return u; }));
+  }
+  return mem.get(k);
+}
+
+const silMem = {};
+function silenceURL(sec) {
+  const k = Math.max(0.5, Math.min(120, Math.round(sec * 2) / 2));
+  if (silMem[k]) return silMem[k];
+  const sr = 8000, n = Math.round(sr * k), buf = new ArrayBuffer(44 + n * 2), dv = new DataView(buf);
+  const w = (o, t) => { for (let i = 0; i < t.length; i++) dv.setUint8(o + i, t.charCodeAt(i)); };
+  w(0, "RIFF"); dv.setUint32(4, 36 + n * 2, true); w(8, "WAVE"); w(12, "fmt "); dv.setUint32(16, 16, true);
+  dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, sr, true); dv.setUint32(28, sr * 2, true);
+  dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); w(36, "data"); dv.setUint32(40, n * 2, true);
+  return (silMem[k] = URL.createObjectURL(new Blob([buf], { type: "audio/wav" })));
+}
+
+let unlocked = false;
+function unlock() {
+  if (unlocked) return Promise.resolve();
+  try {
+    audio.src = silenceURL(0.5);
+    const p = audio.play();
+    return (p || Promise.resolve()).then(() => { unlocked = true; }).catch(() => {});
+  } catch (e) { return Promise.resolve(); }
+}
+
+/* ---------------- moteur de session ---------------- */
+const PL = { on: false, mode: "", s: 0, from: 0, to: 0, steps: [], si: 0, rep: 0, vi: 0, phase: "", tok: 0, repDur: 0, pre: false, res: null, err: 0, cur: 0 };
+
+function buildSteps(mode, from, to, reps, cfg = S.settings) {
+  const steps = [];
+  if (mode === "listen") { steps.push({ k: "listen", vs: range(from, to), reps, gap: false, label: from === to ? "Verset " + from : "Versets " + from + " → " + to }); return steps; }
+  const rNew = Math.max(1, cfg.rNew);
+  for (let i = from; i <= to; i++) {
+    steps.push({ k: "new", vs: [i], reps: rNew, gap: true, label: "Nouveau verset " + i });
+    if (i > from && cfg.rChain > 0) {
+      const a = cfg.win ? Math.max(from, i - cfg.win + 1) : from;
+      const isFull = a === from && i === to;
+      if (isFull && cfg.rAll > 0) continue; // couvert par « tout ensemble »
+      if (a < i) steps.push({ k: "chain", vs: range(a, i), reps: cfg.rChain, gap: true, label: "Enchaînement " + a + " → " + i });
+    }
+  }
+  if (to > from && cfg.rAll > 0) steps.push({ k: "all", vs: range(from, to), reps: cfg.rAll, gap: true, label: "Tout ensemble " + from + " → " + to });
+  return steps;
+}
+
+function playSrc(src, tok) {
+  return new Promise(res => {
+    let fin = false;
+    const done = v => { if (fin) return; fin = true; audio.onended = audio.onerror = null; PL.res = null; res(v); };
+    PL.res = done;
+    audio.onended = () => done(isFinite(audio.duration) ? audio.duration : 0);
+    audio.onerror = () => done(-1);
+    audio.defaultPlaybackRate = S.settings.speed;
+    audio.src = src;
+    audio.playbackRate = S.settings.speed;
+    const p = audio.play();
+    if (p) p.catch(e => { if (tok !== PL.tok) return; if (e && e.name === "NotAllowedError") { renderPlayer(); } else if (e && e.name !== "AbortError") done(-1); });
+  });
+}
+audio.addEventListener("loadedmetadata", () => { audio.playbackRate = S.settings.speed; });
+
+async function playVerse(s, a, tok) {
+  const rec = curRec();
+  let local = null;
+  try { local = await Promise.race([getURL(rec, s, a), new Promise(r => setTimeout(() => r(null), 6000))]); } catch (e) {}
+  if (tok !== PL.tok) return -2;
+  const cands = local ? [local] : urlsFor(rec, s, a);
+  for (const c of cands) {
+    const d = await playSrc(c, tok);
+    if (tok !== PL.tok) return -2;
+    if (d >= 0) return d;
+  }
+  return -1;
+}
+
+function prefetch() {
+  const rec = curRec(), out = [];
+  let si = PL.si, vi = PL.vi + 1;
+  while (out.length < 4 && si < PL.steps.length) {
+    const stp = PL.steps[si];
+    if (vi < stp.vs.length) { const v = stp.vs[vi]; if (!out.includes(v)) out.push(v); vi++; }
+    else { si++; vi = 0; }
+  }
+  out.forEach(v => getURL(rec, PL.s, v));
+}
+
+async function startSession(mode, s, from, to) {
+  stopSession(true);
+  const u = unlock();
+  Object.assign(PL, { on: true, mode, s, from, to, si: 0, rep: 0, vi: 0, repDur: 0, err: 0, cur: 0,
+    steps: buildSteps(mode, from, to, mode === "listen" ? (S.settings.loop === 0 ? Infinity : S.settings.loop) : 1),
+    pre: mode === "listen" && from === 1 && S.settings.bism && s !== 9 });
+  PL.tok++;
+  S.last = { s, from, to, mode, t: Date.now() }; save();
+  setMedia();
+  wake(true);
+  renderPlayer(); highlight();
+  const tok = PL.tok;
+  await u;
+  if (tok === PL.tok) run();
+}
+
+async function run() {
+  const tok = PL.tok;
+  if (!PL.on) return;
+  if (PL.pre) {
+    PL.phase = "bism"; PL.cur = 0; renderPlayer(); highlight();
+    await playVerse(1, 1, tok);
+    if (tok !== PL.tok) return;
+    PL.pre = false;
+  }
+  const stp = PL.steps[PL.si];
+  if (!stp) return finish();
+  const v = stp.vs[PL.vi];
+  PL.phase = "listen"; PL.cur = v; renderPlayer(); highlight(v, stp.vs); setMedia();
+  prefetch();
+  const d = await playVerse(PL.s, v, tok);
+  if (tok !== PL.tok) return;
+  if (d < 0) {
+    PL.err++;
+    if (PL.err >= 2 || !navigator.onLine) { stopSession(); toast("Audio indisponible — vérifie ta connexion ou change de récitateur dans Réglages."); return; }
+  } else { PL.err = 0; PL.repDur += d; }
+  PL.vi++;
+  if (PL.vi < stp.vs.length) return run();
+  if (stp.gap && S.settings.gap > 0 && PL.repDur > 0) {
+    PL.phase = "gap"; renderPlayer(); highlight(null, stp.vs);
+    await playSrc(silenceURL(PL.repDur * S.settings.gap * S.settings.speed), tok);
+    if (tok !== PL.tok) return;
+  }
+  PL.repDur = 0; PL.vi = 0; PL.rep++;
+  if (PL.rep < stp.reps) return run();
+  PL.rep = 0; PL.si++;
+  if (PL.si < PL.steps.length) return run();
+  finish();
+}
+
+function stopSession(silent) {
+  PL.tok++;
+  const was = PL.on;
+  PL.on = false; PL.phase = "";
+  try { audio.pause(); } catch (e) {}
+  if (PL.res) PL.res(-2);
+  wake(false);
+  if (!silent || was) { renderPlayer(); highlight(); }
+}
+function skip(d) {
+  if (!PL.on) return;
+  const stp = PL.steps[PL.si];
+  PL.tok++; if (PL.res) PL.res(-2); PL.pre = false;
+  if (stp && stp.k === "listen") {
+    PL.vi = Math.max(0, Math.min(stp.vs.length - 1, PL.vi + d));
+  } else {
+    PL.si = Math.max(0, Math.min(PL.steps.length - 1, PL.si + d)); PL.vi = 0;
+  }
+  PL.rep = 0; PL.repDur = 0;
+  run();
+}
+function togglePause(force) {
+  if (!PL.on) return;
+  const pause = force !== undefined ? force : !audio.paused;
+  if (pause) audio.pause(); else { const p = audio.play(); p && p.catch(() => {}); }
+}
+audio.addEventListener("play", () => renderPlayer());
+audio.addEventListener("pause", () => renderPlayer());
+audio.addEventListener("timeupdate", () => {
+  if (PL.phase !== "gap") return;
+  const b = document.querySelector("#player .bar.g i");
+  if (b && audio.duration) b.style.width = Math.min(100, audio.currentTime / audio.duration * 100) + "%";
+});
+
+function finish() {
+  const { mode, s, from, to } = PL;
+  stopSession();
+  const whole = from === 1 && to === BY[s].v.length;
+  if (whole) S.rev[s] = Date.now();
+  if (mode === "learn") {
+    for (let a = from; a <= to; a++) if (st(s, a) === 0) setSt(s, a, 1);
+    save(); render();
+    openSheet(`<h2 style="font-size:22px">Session terminée</h2>
+      <p class="mut">${esc(BY[s].tr)}, versets ${from} → ${to}. Tu les connais par cœur ?</p>
+      <div style="display:grid;gap:10px;margin-top:14px">
+        <button class="btn pri full" data-act="markRange" data-s="${s}" data-f="${from}" data-t="${to}" data-v="2">✅ Oui, mémorisés</button>
+        <button class="btn full" data-act="markRange" data-s="${s}" data-f="${from}" data-t="${to}" data-v="1">🔁 Pas encore, je garde « en cours »</button>
+        <button class="btn full" data-act="again" data-s="${s}" data-f="${from}" data-t="${to}">↻ Recommencer la session</button>
+      </div>`);
+  } else {
+    save(); render();
+    toast(whole ? "Écoute terminée — sourate notée comme révisée" : "Écoute terminée");
+  }
+}
+
+let wl = null;
+async function wake(on) {
+  try {
+    if (on && S.settings.wake && "wakeLock" in navigator) { if (!wl) wl = await navigator.wakeLock.request("screen"); wl.addEventListener && wl.addEventListener("release", () => { wl = null; }); }
+    else if (!on && wl) { await wl.release(); wl = null; }
+  } catch (e) { wl = null; }
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden && PL.on) wake(true); });
+
+function setMedia() {
+  if (!("mediaSession" in navigator) || !PL.on) return;
+  try {
+    const sr = BY[PL.s];
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: sr.tr + (PL.cur ? " — verset " + PL.cur : ""), artist: curRec().name, album: "Juz ʿAmma",
+      artwork: [{ src: "icon-512.png", sizes: "512x512", type: "image/png" }]
+    });
+  } catch (e) {}
+}
+try {
+  const ms = navigator.mediaSession;
+  ms.setActionHandler("play", () => togglePause(false));
+  ms.setActionHandler("pause", () => togglePause(true));
+  ms.setActionHandler("nexttrack", () => skip(1));
+  ms.setActionHandler("previoustrack", () => skip(-1));
+} catch (e) {}
+
+let tick = 0;
+setInterval(() => {
+  if (PL.on && !audio.paused) { const k = dkey(); S.log[k] = (S.log[k] || 0) + 1; if (++tick % 15 === 0) save(); }
+}, 1000);
+
+/* ---------------- interface ---------------- */
+const $ = s => document.querySelector(s);
+const IC = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+  list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v4H4zM4 15h4v4H4zM12 7h8M12 17h8"/></svg>',
+  set: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>',
+  prev: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5.5v13L9 12z"/></svg>',
+  next: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5.5v13L15 12z"/></svg>',
+  stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+};
+
+let view = { name: "home" };
+function go(name, p = {}, push = true) {
+  view = Object.assign({ name }, p);
+  if (push) try { history.pushState(view, ""); } catch (e) {}
+  render(); window.scrollTo(0, 0);
+}
+window.addEventListener("popstate", e => { view = (e.state && e.state.name) ? e.state : { name: "home" }; render(); });
+
+function render() {
+  const app = $("#app");
+  if (view.name === "home") app.innerHTML = vHome();
+  else if (view.name === "list") app.innerHTML = vList();
+  else if (view.name === "surah") app.innerHTML = vSurah();
+  else if (view.name === "settings") app.innerHTML = vSettings();
+  const tab = view.name === "surah" ? "list" : view.name;
+  $("#tabs").innerHTML = [["home", "Accueil", IC.home], ["list", "Sourates", IC.list], ["settings", "Réglages", IC.set]]
+    .map(([k, l, i]) => `<button class="${tab === k ? "on" : ""}" data-act="tab" data-v="${k}">${i}<span>${l}</span></button>`).join("");
+  document.documentElement.style.setProperty("--fs", S.settings.fs + "px");
+  highlight(PL.on ? PL.cur : null, PL.on && PL.steps[PL.si] ? PL.steps[PL.si].vs : null, true);
+}
+
+function ring(m, l) {
+  const r = 46, c = 2 * Math.PI * r, pm = m / TOTAL, pl = l / TOTAL;
+  return `<svg width="112" height="112" viewBox="0 0 112 112" style="flex:none">
+    <circle cx="56" cy="56" r="${r}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="10"/>
+    ${m + l ? `<circle cx="56" cy="56" r="${r}" fill="none" stroke="#F0B44A" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(pm + pl) * c} ${c}" transform="rotate(-90 56 56)" opacity=".85"/>` : ""}
+    ${m ? `<circle cx="56" cy="56" r="${r}" fill="none" stroke="#E9D3A3" stroke-width="10" stroke-linecap="round" stroke-dasharray="${pm * c} ${c}" transform="rotate(-90 56 56)"/>` : ""}
+    <text x="56" y="62" text-anchor="middle" fill="#fff" font-size="22" font-family="Fraunces,Georgia,serif" font-weight="600">${m && pm < .01 ? "<1" : Math.round(pm * 100)}%</text></svg>`;
+}
+
+function vHome() {
+  const g = gCounts(), today = Math.round((S.log[dkey()] || 0) / 60);
+  let h = `<section class="hero"><div class="hello">As-salāmu ʿalaykum</div><h1>Juz ʿAmma</h1>
+    <div class="ring">${ring(g.m, g.l)}<div><div class="big">${g.m}<span style="font-size:16px;opacity:.7"> / ${TOTAL}</span></div>
+    <div style="opacity:.8;font-size:14px">versets mémorisés</div><div style="opacity:.8;font-size:14px;margin-top:4px"><span style="color:#F0B44A">●</span> ${g.l} en cours</div></div></div></section>
+    <div class="stats"><div class="stat"><b>${g.done}<small style="font-size:13px" class="mut">/${DATA.length}</small></b><span>sourates sues</span></div>
+    <div class="stat"><b>${streak()}</b><span>jours d'affilée</span></div><div class="stat"><b>${today}</b><span>min ce jour</span></div></div>`;
+  // reprendre
+  if (S.last && BY[S.last.s]) {
+    const L = S.last, sr = BY[L.s], c = counts(L.s);
+    const allDone = range(L.from, L.to).every(a => st(L.s, a) === 2);
+    const nx = allDone ? nextChunk(L.s) : { from: L.from, to: L.to };
+    h += `<div class="card"><h3>▶︎ Reprendre</h3>
+      <div class="row"><div class="sp"><div style="font-weight:600">${esc(sr.tr)} <span class="mut sm">· ${esc(sr.fr)}</span></div>
+      <div class="sm mut">${allDone ? "Bloc suivant" : "Dernière session"} : versets ${nx.from} → ${nx.to} · ${c.m}/${c.n} mémorisés</div></div>
+      <div class="ar" style="font-size:26px;line-height:1.3">${sr.ar}</div></div>
+      <div class="row" style="margin-top:12px"><button class="btn pri sp" data-act="learnNow" data-s="${L.s}" data-f="${nx.from}" data-t="${nx.to}">🧠 Apprendre</button>
+      <button class="btn" data-act="open" data-s="${L.s}" data-f="${nx.from}" data-t="${nx.to}">Ouvrir</button></div></div>`;
+  }
+  // prochaine sourate
+  const nextS = order().find(n => { const c = counts(n); return c.m < c.n; });
+  if (nextS && (!S.last || nextS !== S.last.s)) {
+    const sr = BY[nextS], c = counts(nextS);
+    h += `<div class="card"><h3>✦ Prochaine sourate</h3><div class="row" data-act="open" data-s="${nextS}">
+      <div class="num ${c.m ? "part" : ""}">${nextS}</div><div class="sp"><div style="font-weight:600">${esc(sr.tr)}</div><div class="sm mut">${esc(sr.fr)} · ${c.m}/${c.n} versets</div></div>
+      <div class="ar" style="font-size:24px;line-height:1.3">${sr.ar}</div></div></div>`;
+  } else if (!nextS) {
+    h += `<div class="card" style="text-align:center"><h3 style="justify-content:center">Mā shāʾ Allāh 🤍</h3><p class="mut sm">Tout Juz ʿAmma est marqué comme mémorisé. Place à la révision régulière.</p></div>`;
+  }
+  // à réviser
+  const mems = DATA.map(s => s.n).filter(n => { const c = counts(n); return c.m === c.n; })
+    .sort((a, b) => (S.rev[a] || 0) - (S.rev[b] || 0));
+  h += `<div class="card"><h3>↻ À réviser</h3>`;
+  if (!mems.length) h += `<div class="empty">Les sourates entièrement mémorisées apparaîtront ici, de la moins récemment révisée à la plus récente.</div>`;
+  else h += mems.slice(0, 6).map(n => {
+    const d = daysAgo(S.rev[n]);
+    const lab = d === null ? "jamais révisée" : d === 0 ? "aujourd'hui" : "il y a " + d + " j";
+    return `<div class="rv"><button class="ibtn" data-act="listenAll" data-s="${n}">${IC.play.replace("<svg", '<svg width="16" height="16"')}</button>
+      <div class="sp" data-act="open" data-s="${n}"><div style="font-weight:600">${esc(BY[n].tr)}</div><div class="sm mut">${lab}</div></div>
+      ${d === null || d >= 7 ? '<span class="tag">à revoir</span>' : ""}<button class="btn sm" data-act="revNow" data-s="${n}">✓</button></div>`;
+  }).join("");
+  h += `</div>`;
+  // 14 jours
+  const days = []; const d0 = new Date();
+  for (let i = 13; i >= 0; i--) { const d = new Date(d0); d.setDate(d.getDate() - i); days.push([dkey(d), i === 0]); }
+  const mx = Math.max(60, ...days.map(([k]) => S.log[k] || 0));
+  h += `<div class="card"><h3>Régularité <span class="mut sm" style="font-weight:400;font-family:inherit">· 14 derniers jours</span></h3><div class="days">${days.map(([k, t]) => {
+    const v = S.log[k] || 0; return `<div class="${v ? "on" : ""} ${t ? "today" : ""}" style="height:${Math.max(6, v / mx * 100)}%"></div>`; }).join("")}</div></div>`;
+  return h;
+}
+
+function vList() {
+  const f = view.f || "all";
+  const rows = order().filter(n => {
+    const c = counts(n);
+    if (f === "todo") return c.m === 0 && c.l === 0;
+    if (f === "wip") return (c.m > 0 || c.l > 0) && c.m < c.n;
+    if (f === "done") return c.m === c.n;
+    return true;
+  });
+  let h = `<div class="row" style="margin-top:14px"><h1 style="font-size:28px" class="sp">Sourates</h1>
+    <button class="chip" data-act="order">${S.settings.order === "desc" ? "114 → 78" : "78 → 114"}</button></div>
+    <div class="seg">${[["all", "Toutes"], ["wip", "En cours"], ["todo", "À faire"], ["done", "Sues"]].map(([k, l]) => `<button class="${f === k ? "on" : ""}" data-act="filter" data-v="${k}">${l}</button>`).join("")}</div>
+    <div class="card" style="padding:4px 12px">`;
+  h += rows.length ? rows.map(n => {
+    const s = BY[n], c = counts(n);
+    return `<div class="srow" data-act="open" data-s="${n}"><div class="num ${c.m === c.n ? "done" : c.m || c.l ? "part" : ""}">${n}</div>
+      <div class="sp"><div class="nm">${esc(s.tr)}</div><div class="sm mut">${esc(s.fr)} · ${c.m}/${c.n}</div>
+      <div class="bar" style="margin-top:6px"><i class="m" style="width:${c.m / c.n * 100}%"></i><i class="l" style="width:${c.l / c.n * 100}%"></i></div></div>
+      <div class="ar" style="font-size:22px">${s.ar}</div></div>`;
+  }).join("") : `<div class="empty" style="padding:24px 0">Rien ici pour l'instant.</div>`;
+  return h + `</div>`;
+}
+
+function planText(cfg, from, to) {
+  const steps = buildSteps("learn", from, to, 1, cfg);
+  return steps.map(s => `<b>${s.vs.length === 1 ? s.vs[0] : s.vs[0] + "–" + s.vs[s.vs.length - 1]}</b>×${s.reps}`).join(" → ");
+}
+
+function vSurah() {
+  const n = view.s, s = BY[n], c = counts(n), N = s.v.length, set = S.settings;
+  let { from, to } = view;
+  if (!from) { const nx = nextChunk(n); from = nx.from; to = nx.to; view.from = from; view.to = to; }
+  const opts = (sel, min) => range(min, N).map(i => `<option value="${i}" ${i === sel ? "selected" : ""}>${i}</option>`).join("");
+  const loopLab = set.loop === 0 ? "∞" : set.loop + "×";
+  let h = `<div class="top" id="top"><button class="back" data-act="back">‹</button><div class="sp" style="font-weight:600">${n}. ${esc(s.tr)}</div>
+    <button class="chip ${set.test ? "on" : ""}" data-act="toggle" data-k="test">Mode test</button></div>
+    <div class="shead"><div class="ar">${s.ar}</div><div class="mut sm">${esc(s.fr)} · ${N} versets · ${s.t === "meccan" ? "mecquoise" : "médinoise"}</div>
+    <div class="bar" style="margin:10px auto 4px;max-width:260px"><i class="m" style="width:${c.m / N * 100}%"></i><i class="l" style="width:${c.l / N * 100}%"></i></div>
+    <div class="legend" style="justify-content:center"><span><i style="background:var(--mem)"></i>${c.m} mémorisés</span><span><i style="background:var(--lrn)"></i>${c.l} en cours</span><span><i style="background:var(--new)"></i>${N - c.m - c.l} nouveaux</span></div></div>
+    <div class="card"><div class="sel"><label>Du verset<select data-ch="from">${opts(from, 1)}</select></label><label>au verset<select data-ch="to">${opts(to, from)}</select></label></div>
+    <div class="chips" style="margin-bottom:12px"><button class="chip" data-act="rng" data-v="next">Bloc suivant</button><button class="chip" data-act="rng" data-v="all">Toute la sourate</button><button class="chip" data-act="rng" data-v="wip">Versets en cours</button></div>
+    <div class="row"><button class="btn pri sp" data-act="learn">🧠 Apprendre</button><button class="btn sp" data-act="listen">🎧 Écouter</button><button class="btn" data-act="loop" style="padding:0 12px">↻ ${loopLab}</button></div>
+    <div class="plan">Méthode : ${from === to ? `<b>${from}</b>×${Math.max(1, set.rNew)}` : planText(set, from, to)}${set.gap ? ` · pause ${set.gap}× pour répéter` : ""} <a href="#" data-act="learnCfg" style="color:var(--g2);font-weight:600">modifier</a></div></div>
+    <div class="row" style="justify-content:flex-end;gap:6px"><button class="chip ${set.showFr ? "on" : ""}" data-act="toggle" data-k="showFr">Traduction</button>
+    <button class="chip ${set.showTl ? "on" : ""}" data-act="toggle" data-k="showTl">Phonétique</button><button class="chip" data-act="fs" data-v="-2">A−</button><button class="chip" data-act="fs" data-v="2">A+</button></div>
+    <div id="ays" class="${set.test ? "test" : ""}">${n !== 1 && n !== 9 ? `<div class="ar bism">${BISM}</div>` : ""}`;
+  h += s.v.map((v, i) => {
+    const a = i + 1, x = st(n, a);
+    return `<div class="ay" id="ay-${a}" data-act="reveal"><div class="hd"><button class="med s${x}" data-act="cyc" data-a="${a}">${a}</button>
+      <span class="stl">${["nouveau", "en cours", "mémorisé"][x]}</span><span class="sp"></span>
+      <button class="ibtn" data-act="one" data-a="${a}" aria-label="Écouter">${IC.play.replace("<svg", '<svg width="16" height="16"')}</button></div>
+      <div class="ar t">${v[0]}</div>${set.showTl ? `<div class="tl">${esc(v[2])}</div>` : ""}${set.showFr ? `<div class="fr">${esc(v[1])}</div>` : ""}</div>`;
+  }).join("");
+  h += `</div><div class="card"><div style="display:grid;gap:10px">
+    <button class="btn full" data-act="revNow" data-s="${n}">✓ Marquer la sourate révisée aujourd'hui</button>
+    <button class="btn full" data-act="dl" data-s="${n}" id="dlb">${S.off[curRec().id + "/" + n] ? "✓ Audio disponible hors-ligne" : "⬇︎ Télécharger l'audio (hors-ligne)"}</button>
+    <div class="row"><button class="btn sp sm" data-act="markAll" data-v="2">Tout mémorisé</button><button class="btn sp sm" data-act="markAll" data-v="0">Tout réinitialiser</button></div>
+    </div><p class="sm mut" style="margin:10px 2px 0">Touche le numéro d'un verset pour changer son statut : nouveau → en cours → mémorisé.${set.test ? " En mode test, touche un verset pour révéler son texte." : ""}</p></div>`;
+  return h;
+}
+
+function stepper(k, min, max, lab, sub) {
+  return `<div class="set"><div class="k">${lab}${sub ? `<small>${sub}</small>` : ""}</div><div class="stp"><button data-act="stp" data-k="${k}" data-v="-1" data-min="${min}" data-max="${max}">−</button><b>${S.settings[k]}</b><button data-act="stp" data-k="${k}" data-v="1" data-min="${min}" data-max="${max}">+</button></div></div>`;
+}
+function choice(k, vals, lab, sub) {
+  return `<div class="set" style="flex-wrap:wrap"><div class="k" style="flex-basis:100%">${lab}${sub ? `<small>${sub}</small>` : ""}</div><div class="chips">${vals.map(([v, l]) => `<button class="chip ${S.settings[k] === v ? "on" : ""}" data-act="set" data-k="${k}" data-v="${v}">${l}</button>`).join("")}</div></div>`;
+}
+function sw(k, lab, sub) {
+  return `<div class="set"><div class="k">${lab}${sub ? `<small>${sub}</small>` : ""}</div><button class="sw ${S.settings[k] ? "on" : ""}" data-act="toggle" data-k="${k}"></button></div>`;
+}
+function learnCfgHTML() {
+  return stepper("rNew", 1, 10, "Nouveau verset", "Nombre d'écoutes du verset ajouté") +
+    stepper("rChain", 0, 10, "Enchaînement", "Écoutes des versets enchaînés (0 = désactivé)") +
+    choice("win", [[0, "Depuis le début"], [3, "3 derniers"], [5, "5 derniers"], [7, "7 derniers"]], "Enchaîner", "« 5 derniers » évite des enchaînements trop longs sur les grandes sourates") +
+    choice("gap", [[0, "Aucune"], [0.5, "½×"], [1, "1×"], [1.5, "1,5×"], [2, "2×"]], "Pause pour répéter", "Silence après chaque écoute, proportionnel à la durée récitée") +
+    stepper("rAll", 0, 10, "Tout ensemble à la fin", "0 = pas de récapitulatif") +
+    choice("chunk", [[3, "3"], [5, "5"], [7, "7"], [10, "10"]], "Taille du « bloc suivant »", "Nombre de versets proposés par session") +
+    `<div class="plan" style="margin-top:12px">Exemple sur 4 versets : ${planText(S.settings, 1, 4)}</div>`;
+}
+
+function vSettings() {
+  const rec = S.settings.rec;
+  return `<h1 style="font-size:28px;margin-top:14px">Réglages</h1>
+  <div class="card"><h3>Récitateur</h3><select class="full" data-ch="rec">${RECITERS.map(r => `<option value="${r.id}" ${r.id === rec ? "selected" : ""}>${esc(r.name)}</option>`).join("")}</select>
+  <div class="row" style="margin-top:10px"><button class="btn sm" data-act="testRec">▶︎ Tester (Al-Ikhlas)</button><span class="sm mut">Al-Husary Muʿallim est très lent, idéal pour débuter.</span></div>
+  ${choice("speed", SPEEDS.map(v => [v, String(v).replace(".", ",") + "×"]), "Vitesse")}
+  ${sw("bism", "Basmala avant la sourate", "En mode écoute, depuis le verset 1")}
+  ${sw("wake", "Garder l'écran allumé", "Pendant une session")}</div>
+  <div class="card"><h3>Méthode d'apprentissage</h3>${learnCfgHTML()}</div>
+  <div class="card"><h3>Affichage</h3>${sw("showFr", "Traduction (Hamidullah)")}${sw("showTl", "Phonétique")}
+  ${choice("order", [["desc", "An-Nas → An-Naba"], ["asc", "An-Naba → An-Nas"]], "Ordre des sourates")}</div>
+  <div class="card"><h3>Hors-ligne</h3><p class="sm mut" style="margin:0 0 10px">Télécharge l'audio du récitateur choisi pour écouter sans réseau (métro, avion…). Environ 30 à 60 Mo pour tout Juz ʿAmma.</p>
+  <button class="btn full" data-act="dlAll" id="dlAll">⬇︎ Télécharger tout Juz ʿAmma</button>
+  <button class="btn full sm" style="margin-top:8px" data-act="clearAudio">Supprimer l'audio téléchargé</button></div>
+  <div class="card"><h3>Sauvegarde</h3><p class="sm mut" style="margin:0 0 10px">Ta progression est enregistrée sur cet iPhone. Copie la sauvegarde de temps en temps (Notes, mail…).</p>
+  <div class="row"><button class="btn sp" data-act="export">Copier ma sauvegarde</button><button class="btn sp" data-act="import">Importer</button></div>
+  <button class="btn full sm" style="margin-top:8px;color:#b33" data-act="reset">Tout réinitialiser</button></div>
+  <p class="sm mut" style="text-align:center;margin:18px 0">Texte : Tanzil / Noble Qur'an Encyclopedia · Audio : everyayah.com</p>`;
+}
+
+function renderPlayer() {
+  const el = $("#player");
+  if (!PL.on) { el.className = ""; el.innerHTML = ""; return; }
+  const sr = BY[PL.s], stp = PL.steps[PL.si] || {}, paused = audio.paused;
+  const total = PL.steps.length, inf = !isFinite(stp.reps);
+  const ph = PL.phase === "gap" ? `<span class="ph gap">À TOI</span>` : PL.phase === "bism" ? `<span class="ph">BASMALA</span>` : `<span class="ph">ÉCOUTE</span>`;
+  const sub = PL.phase === "gap" ? "Répète de mémoire…" : PL.phase === "bism" ? "" : "Verset " + PL.cur;
+  const prog = PL.phase === "gap" ? 0 : ((PL.si + (stp.vs ? (PL.rep + PL.vi / stp.vs.length) / (inf ? 1 : stp.reps) : 0)) / total) * 100;
+  el.className = "on";
+  el.innerHTML = `<div class="pt">${ph}<span style="opacity:.85">${sub}</span><span class="sp"></span><span style="opacity:.75" data-act="open" data-s="${PL.s}">${esc(sr.tr)} ›</span></div>
+    <div class="lbl">${PL.mode === "learn" ? `Étape ${PL.si + 1}/${total} · ` : ""}${esc(stp.label || "")}${stp.reps > 1 ? ` <span style="opacity:.7;font-weight:400">· ${PL.rep + 1}/${inf ? "∞" : stp.reps}</span>` : ""}</div>
+    <div class="bar ${PL.phase === "gap" ? "g" : ""}"><i style="width:${prog}%"></i></div>
+    <div class="ctl"><button data-act="stop" aria-label="Arrêter">${IC.stop}</button><button data-act="skip" data-v="-1" aria-label="Précédent">${IC.prev}</button>
+    <button class="pp" data-act="pp" aria-label="Lecture">${paused ? IC.play : IC.pause}</button><button data-act="skip" data-v="1" aria-label="Suivant">${IC.next}</button>
+    <button class="spd" data-act="speed">${String(S.settings.speed).replace(".", ",")}×</button></div>`;
+}
+
+function highlight(v, vs, noScroll) {
+  document.querySelectorAll(".ay.play,.ay.inr").forEach(e => e.classList.remove("play", "inr"));
+  if (!PL.on || view.name !== "surah" || view.s !== PL.s) return;
+  (vs || []).forEach(a => { const e = document.getElementById("ay-" + a); e && e.classList.add("inr"); });
+  if (v) { const e = document.getElementById("ay-" + v); if (e) { e.classList.add("play"); if (!noScroll) e.scrollIntoView({ behavior: "smooth", block: "center" }); } }
+}
+
+function openSheet(html) { const s = $("#sheet"); s.querySelector(".pn").innerHTML = `<div class="grab"></div>` + html; s.className = "on"; }
+function closeSheet() { $("#sheet").className = ""; }
+let toastT;
+function toast(t) { const e = $("#toast"); e.textContent = t; e.className = "on"; clearTimeout(toastT); toastT = setTimeout(() => e.className = "", 3200); }
+
+async function downloadSurah(n, btn) {
+  const rec = curRec(), N = BY[n].v.length;
+  const list = range(1, N).map(a => [n, a]);
+  if (n !== 1 && S.settings.bism) list.unshift([1, 1]);
+  let ok = 0;
+  for (const [s, a] of list) {
+    const k = rec.id + "/" + s + ":" + a;
+    let have = null; try { have = await idb.get(k); } catch (e) {}
+    if (!have) { const b = await fetchAudio(rec, s, a); if (!b) return false; try { await idb.put(k, b); } catch (e) { return false; } }
+    ok++; if (btn) btn.textContent = `Téléchargement… ${Math.round(ok / list.length * 100)}%`;
+  }
+  S.off[rec.id + "/" + n] = true; save();
+  return true;
+}
+
+/* ---------------- événements ---------------- */
+const ACT = {
+  tab: d => go(d.v),
+  back: () => { if (history.state && history.length > 1) history.back(); else go("list"); },
+  open: d => go("surah", { s: +d.s, from: d.f ? +d.f : 0, to: d.t ? +d.t : 0 }),
+  filter: d => { view.f = d.v; try { history.replaceState(view, ""); } catch (e) {} render(); },
+  order: () => { S.settings.order = S.settings.order === "desc" ? "asc" : "desc"; save(); render(); },
+  cyc: (d, e) => { e.stopPropagation(); const a = +d.a, x = (st(view.s, a) + 1) % 3; setSt(view.s, a, x); const y = window.scrollY; render(); window.scrollTo(0, y); },
+  reveal: (d, e, el) => { if (S.settings.test) el.classList.toggle("rev"); },
+  one: (d, e) => { e.stopPropagation(); startSession("listen", view.s, +d.a, +d.a); },
+  learn: () => startSession("learn", view.s, view.from, view.to),
+  listen: () => startSession("listen", view.s, view.from, view.to),
+  learnNow: d => { go("surah", { s: +d.s, from: +d.f, to: +d.t }); startSession("learn", +d.s, +d.f, +d.t); },
+  listenAll: d => startSession("listen", +d.s, 1, BY[+d.s].v.length),
+  loop: () => { const o = [1, 3, 5, 0]; S.settings.loop = o[(o.indexOf(S.settings.loop) + 1) % o.length]; save(); rerenderKeep(); },
+  rng: d => {
+    const n = view.s, N = BY[n].v.length;
+    if (d.v === "all") { view.from = 1; view.to = N; }
+    else if (d.v === "next") Object.assign(view, nextChunk(n));
+    else { const w = range(1, N).filter(a => st(n, a) === 1); if (!w.length) return toast("Aucun verset « en cours » dans cette sourate"); view.from = w[0]; view.to = w[w.length - 1]; }
+    rerenderKeep();
+  },
+  toggle: d => { S.settings[d.k] = !S.settings[d.k]; save(); rerenderKeep(); },
+  fs: d => { S.settings.fs = Math.max(20, Math.min(44, S.settings.fs + +d.v)); save(); document.documentElement.style.setProperty("--fs", S.settings.fs + "px"); },
+  learnCfg: (d, e) => { e.preventDefault(); openSheet(`<h2 style="font-size:22px;margin-bottom:6px">Méthode d'apprentissage</h2>${learnCfgHTML()}<button class="btn pri full" style="margin-top:14px" data-act="closeSheet">OK</button>`); },
+  closeSheet: () => { closeSheet(); if (view.name === "surah") rerenderKeep(); },
+  stp: d => { const k = d.k; S.settings[k] = Math.max(+d.min, Math.min(+d.max, S.settings[k] + +d.v)); save(); refreshCfg(); },
+  set: d => { const k = d.k, cur = S.settings[k]; S.settings[k] = typeof cur === "number" ? +d.v : d.v; save(); if (k === "speed" && PL.on) audio.playbackRate = S.settings.speed; refreshCfg(); },
+  speed: () => { const i = SPEEDS.indexOf(S.settings.speed); S.settings.speed = SPEEDS[(i + 1) % SPEEDS.length]; save(); if (PL.phase !== "gap") audio.playbackRate = S.settings.speed; renderPlayer(); },
+  pp: () => togglePause(),
+  skip: d => skip(+d.v),
+  stop: () => stopSession(),
+  markRange: d => { for (let a = +d.f; a <= +d.t; a++) setSt(+d.s, a, +d.v); closeSheet(); render(); toast(+d.v === 2 ? "Barakallāhu fīk ! Versets mémorisés ✅" : "Gardés en cours 🔁"); },
+  again: d => { closeSheet(); startSession("learn", +d.s, +d.f, +d.t); },
+  markAll: d => { if (!confirm(+d.v === 2 ? "Marquer toute la sourate comme mémorisée ?" : "Remettre tous les versets à « nouveau » ?")) return; range(1, BY[view.s].v.length).forEach(a => setSt(view.s, a, +d.v)); if (+d.v === 2 && !S.rev[view.s]) S.rev[view.s] = Date.now(); rerenderKeep(); },
+  revNow: d => { S.rev[+d.s] = Date.now(); save(); toast("Révision notée ✓"); rerenderKeep(); },
+  testRec: () => startSession("listen", 112, 1, 2),
+  dl: async (d, e, el) => {
+    if (el.dataset.busy) return; el.dataset.busy = 1;
+    const ok = await downloadSurah(+d.s, el);
+    delete el.dataset.busy;
+    if (ok) { el.textContent = "✓ Audio disponible hors-ligne"; toast("Sourate disponible hors-ligne"); }
+    else { el.textContent = "⬇︎ Télécharger l'audio (hors-ligne)"; toast("Téléchargement impossible avec ce récitateur — essaie Alafasy ou Al-Husary Murattal"); }
+  },
+  dlAll: async (d, e, el) => {
+    if (el.dataset.busy) return; el.dataset.busy = 1;
+    let i = 0;
+    for (const n of order()) {
+      el.textContent = `Téléchargement… sourate ${++i}/${DATA.length}`;
+      if (!(await downloadSurah(n))) { delete el.dataset.busy; el.textContent = "⬇︎ Télécharger tout Juz ʿAmma"; return toast("Interrompu — ce récitateur ne permet peut-être pas le hors-ligne (essaie Alafasy)"); }
+    }
+    delete el.dataset.busy; el.textContent = "✓ Tout Juz ʿAmma est hors-ligne"; toast("Tout est téléchargé ✓");
+  },
+  clearAudio: async () => { if (!confirm("Supprimer tout l'audio téléchargé ?")) return; try { await idb.clear(); } catch (e) {} S.off = {}; mem.clear(); save(); toast("Audio supprimé"); },
+  export: async () => {
+    const txt = JSON.stringify(S);
+    let ok = false; try { await navigator.clipboard.writeText(txt); ok = true; } catch (e) {}
+    openSheet(`<h2 style="font-size:22px">Sauvegarde</h2><p class="sm mut">${ok ? "Copiée dans le presse-papiers ✓ Colle-la dans Notes pour la garder." : "Copie ce texte et garde-le dans Notes :"}</p><textarea readonly>${esc(txt)}</textarea><button class="btn pri full" style="margin-top:12px" data-act="closeSheet">OK</button>`);
+  },
+  import: () => openSheet(`<h2 style="font-size:22px">Importer une sauvegarde</h2><p class="sm mut">Colle ici le texte de ta sauvegarde. Elle remplacera la progression actuelle.</p><textarea id="imp" placeholder="{…}"></textarea><button class="btn pri full" style="margin-top:12px" data-act="doImport">Importer</button>`),
+  doImport: () => {
+    try { const o = JSON.parse($("#imp").value); if (!o || !o.settings || !o.st) throw 0; S = Object.assign(clone(DEF), o, { settings: Object.assign(clone(DEF.settings), o.settings) }); saveNow(); closeSheet(); render(); toast("Sauvegarde importée ✓"); }
+    catch (e) { toast("Texte de sauvegarde invalide"); }
+  },
+  reset: () => { if (!confirm("Effacer toute ta progression ? C'est définitif.")) return; stopSession(); S = clone(DEF); saveNow(); go("home"); toast("Progression réinitialisée"); },
+};
+function rerenderKeep() { const y = window.scrollY; render(); window.scrollTo(0, y); }
+function refreshCfg() {
+  const sh = $("#sheet");
+  if (sh.className === "on" && sh.querySelector(".stp")) sh.querySelector(".pn").innerHTML = `<div class="grab"></div><h2 style="font-size:22px;margin-bottom:6px">Méthode d'apprentissage</h2>${learnCfgHTML()}<button class="btn pri full" style="margin-top:14px" data-act="closeSheet">OK</button>`;
+  else rerenderKeep();
+}
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const f = ACT[el.dataset.act];
+  if (f) f(el.dataset, e, el);
+});
+document.addEventListener("change", e => {
+  const k = e.target.dataset.ch; if (!k) return;
+  if (k === "from") { view.from = +e.target.value; if (view.to < view.from) view.to = view.from; rerenderKeep(); }
+  else if (k === "to") { view.to = +e.target.value; rerenderKeep(); }
+  else if (k === "rec") { S.settings.rec = e.target.value; save(); if (PL.on) stopSession(); toast("Récitateur : " + curRec().name); }
+});
+window.addEventListener("scroll", () => { const t = $("#top"); if (t) t.classList.toggle("sc", window.scrollY > 4); }, { passive: true });
+
+try { history.replaceState(view, ""); } catch (e) {}
+render();
+if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+</script>
+</body>
+</html>

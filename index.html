@@ -824,7 +824,13 @@ window.addEventListener("scroll", () => { const t = $("#top"); if (t) t.classLis
 
 try { history.replaceState(view, ""); } catch (e) {}
 render();
-if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  const hadCtrl = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(r => r.update()).catch(() => {});
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadCtrl && !reloaded && !PL.on) { reloaded = true; location.reload(); } });
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) navigator.serviceWorker.getRegistration().then(r => r && r.update()).catch(() => {}); });
+}
 </script>
 </body>
 </html>

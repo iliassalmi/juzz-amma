@@ -1,5 +1,5 @@
 // Juz Amma — service worker : app disponible hors-ligne
-const V = "juzamma-v1";
+const V = "juzamma-v2";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", e => {
